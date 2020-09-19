@@ -7,15 +7,15 @@
   
   <title>caketi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="修改本地的hosts文件，建立对github的解析： C:\Windows\System32\drivers\etc\hosts 添加： 　　IP　　https:&#x2F;&#x2F;www.github.com">
+  <meta name="description" content="Third-party dependencies, their dependencies, and the dependencies of those depen‐dencies (etc., etc.) make up what is known as a dependency tree (see Figure 27-1).Using the npm ls command in an npm-p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="caketi">
-<meta property="og:url" content="http://example.com/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:url" content="http://example.com/2020/09/18/Securing%20Third-party/index.html">
 <meta property="og:site_name" content="caketi">
-<meta property="og:description" content="修改本地的hosts文件，建立对github的解析： C:\Windows\System32\drivers\etc\hosts 添加： 　　IP　　https:&#x2F;&#x2F;www.github.com">
+<meta property="og:description" content="Third-party dependencies, their dependencies, and the dependencies of those depen‐dencies (etc., etc.) make up what is known as a dependency tree (see Figure 27-1).Using the npm ls command in an npm-p">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-19T15:00:39.637Z">
-<meta property="article:modified_time" content="2020-09-19T15:01:10.780Z">
+<meta property="article:published_time" content="2020-09-18T11:47:12.732Z">
+<meta property="article:modified_time" content="2020-09-18T11:54:03.277Z">
 <meta property="article:author" content="caketi">
 <meta property="article:tag" content="红凯，乡秀树，北斗星司，东光太郎">
 <meta name="twitter:card" content="summary">
@@ -67,10 +67,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-GitHub host配置" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Securing Third-party" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/" class="article-date">
-  <time datetime="2020-09-19T15:00:39.637Z" itemprop="datePublished">2020-09-19</time>
+    <a href="/2020/09/18/Securing%20Third-party/" class="article-date">
+  <time datetime="2020-09-18T11:47:12.732Z" itemprop="datePublished">2020-09-18</time>
 </a>
     
   </div>
@@ -79,15 +79,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>修改本地的hosts文件，建立对github的解析：</p>
-<p>C:\Windows\System32\drivers\etc\hosts</p>
-<p>添加：</p>
-<p>　　IP　　<a target="_blank" rel="noopener" href="https://www.github.com/">https://www.github.com</a></p>
+        <p>Third-party dependencies, their dependencies, and the dependencies of those depen‐<br>dencies (etc., etc.) make up what is known as a dependency tree (see Figure 27-1).<br>Using the npm ls command in an npm-powered project, you can list an entire<br>dependency tree out for evaluation. This command is powerful for seeing how manydependencies your application actually has, because you may not consider the subde‐<br>pendencies on a regular basis.</p>
+<p>#####In an ideal world, each component in an application that relied on JQuery to function<br>(like the preceding example) would rely on the same version of JQuery. But in the<br>real world, that is rarely the case. First-party applications can standardize on depend‐<br>ency versions, but it is unlikely the first-party application will standardize with the<br>remainder of the dependency chain. This is because each item in the dependency<br>chain may rely on functionality or implementation details that differ from version to<br>version. The philosophy behind when and how to upgrade dependencies also differs<br>from organization to organization</p>
+<p>#Dependency Trees in the Real World<br>A real-world dependency tree often looks like the following:<br>Primary Application v1.6 → JQuery 3.4.0 Primary Application v1.6 → SPA Frame‐<br>work v1.3.2 → JQuery v2.2.1 Primary Application v1.6 → UI Component Library<br>v4.5.0 → JQuery v2.2.1<br>It is very much possible that version 2.2.1 of a dependency has critical vulnerabilities,<br>while version 3.4.0 does not. As a result, each unique dependency should be evalu‐<br>ated, in addition to each unique version of each unique dependency. In a large appli‐<br>cation with a hundred third-party dependencies, this can result in a dependency tree<br>spanning thousands or even tens of thousands of unique subdependencies and<br>dependency versions.</p>
+<p><strong><em>The easiest way to begin finding vulnerabilities in a dependency tree is to compare your application’s dependency tree against a well-known CVE database.</em></strong></p>
+<blockquote>
+<p>You can download a third-party scanner (like Snyk), or write a bit of script to convert<br>your dependency tree into a list and then compare it against a remote CVE database.<br>In the npm world, you can begin this process with a command like: npm list –<br>depth=[depth].</p>
+</blockquote>
+<p><strong><em>This is where shrinkwrapping comes into play. Running the command npm shrink<br>wrap against an npm repo will generate a new file called npm-shrinkwrap.json. From<br>this point forward, the current version of each dependency and subdependency (the<br>dependency tree) will be used at the exact version level</em></strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/" data-id="ckf9sv7cx00006kth3y0i1hzc" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/09/18/Securing%20Third-party/" data-id="ckf9uqchq0000lkth11xcgrul" class="article-share-link">Share</a>
       
       
     </footer>
@@ -96,20 +100,15 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/09/19/XXE-notes-intro-level/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/09/19/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          Hello World
         
       </div>
     </a>
   
-  
-    <a href="/2020/09/19/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
   
 </nav>
 

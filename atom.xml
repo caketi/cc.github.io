@@ -80,4 +80,24 @@
     
   </entry>
   
+  <entry>
+    <title></title>
+    <link href="http://example.com/2020/09/18/Securing%20Third-party/"/>
+    <id>http://example.com/2020/09/18/Securing%20Third-party/</id>
+    <published>2020-09-18T11:47:12.732Z</published>
+    <updated>2020-09-18T11:54:03.277Z</updated>
+    
+    <content type="html"><![CDATA[<p>Third-party dependencies, their dependencies, and the dependencies of those depen‐<br>dencies (etc., etc.) make up what is known as a dependency tree (see Figure 27-1).<br>Using the npm ls command in an npm-powered project, you can list an entire<br>dependency tree out for evaluation. This command is powerful for seeing how manydependencies your application actually has, because you may not consider the subde‐<br>pendencies on a regular basis.</p><p>#####In an ideal world, each component in an application that relied on JQuery to function<br>(like the preceding example) would rely on the same version of JQuery. But in the<br>real world, that is rarely the case. First-party applications can standardize on depend‐<br>ency versions, but it is unlikely the first-party application will standardize with the<br>remainder of the dependency chain. This is because each item in the dependency<br>chain may rely on functionality or implementation details that differ from version to<br>version. The philosophy behind when and how to upgrade dependencies also differs<br>from organization to organization</p><p>#Dependency Trees in the Real World<br>A real-world dependency tree often looks like the following:<br>Primary Application v1.6 → JQuery 3.4.0 Primary Application v1.6 → SPA Frame‐<br>work v1.3.2 → JQuery v2.2.1 Primary Application v1.6 → UI Component Library<br>v4.5.0 → JQuery v2.2.1<br>It is very much possible that version 2.2.1 of a dependency has critical vulnerabilities,<br>while version 3.4.0 does not. As a result, each unique dependency should be evalu‐<br>ated, in addition to each unique version of each unique dependency. In a large appli‐<br>cation with a hundred third-party dependencies, this can result in a dependency tree<br>spanning thousands or even tens of thousands of unique subdependencies and<br>dependency versions.</p><p><strong><em>The easiest way to begin finding vulnerabilities in a dependency tree is to compare your application’s dependency tree against a well-known CVE database.</em></strong></p><blockquote><p>You can download a third-party scanner (like Snyk), or write a bit of script to convert<br>your dependency tree into a list and then compare it against a remote CVE database.<br>In the npm world, you can begin this process with a command like: npm list –<br>depth=[depth].</p></blockquote><p><strong><em>This is where shrinkwrapping comes into play. Running the command npm shrink<br>wrap against an npm repo will generate a new file called npm-shrinkwrap.json. From<br>this point forward, the current version of each dependency and subdependency (the<br>dependency tree) will be used at the exact version level</em></strong></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Third-party dependencies, their dependencies, and the dependencies of those depen‐&lt;br&gt;dencies (etc., etc.) make up what is known as a dep</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
 </feed>
