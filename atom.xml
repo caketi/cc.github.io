@@ -38,11 +38,11 @@
   </entry>
   
   <entry>
-    <title></title>
+    <title>Github host 配置</title>
     <link href="http://example.com/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/"/>
     <id>http://example.com/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/</id>
     <published>2020-09-19T15:00:39.637Z</published>
-    <updated>2020-09-19T15:01:10.780Z</updated>
+    <updated>2020-09-19T15:57:32.140Z</updated>
     
     <content type="html"><![CDATA[<p>修改本地的hosts文件，建立对github的解析：</p><p>C:\Windows\System32\drivers\etc\hosts</p><p>添加：</p><p>　　IP　　<a href="https://www.github.com/">https://www.github.com</a></p>]]></content>
     
