@@ -1,95 +1,74 @@
-<!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  
+    <meta charset="utf-8">
+    
+    <title>XXE-notes-intro-level | caketi</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <title>XXE-notes-intro-level | caketi</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="a classification of attack that is often very simple to execute, but with devastating results.Relies on improperly configured XML parser within an application’s code an API endpoint that accepts">
-<meta property="og:type" content="article">
-<meta property="og:title" content="XXE-notes-intro-level">
-<meta property="og:url" content="http://example.com/2020/09/19/XXE-notes-intro-level/index.html">
-<meta property="og:site_name" content="caketi">
-<meta property="og:description" content="a classification of attack that is often very simple to execute, but with devastating results.Relies on improperly configured XML parser within an application’s code an API endpoint that accepts">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-19T15:46:13.573Z">
-<meta property="article:modified_time" content="2020-09-19T16:02:26.811Z">
-<meta property="article:author" content="caketi">
-<meta property="article:tag" content="红凯，乡秀树，北斗星司，东光太郎">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="caketi" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon/favicon.ico">
+    
+<link rel="stylesheet" href="/css/main.css">
 
+    
+<link rel="stylesheet" href="/css/tagplugins.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+
+
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="caketi" type="application/atom+xml" />
+    
 <meta name="generator" content="Hexo 5.2.0"></head>
 
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">caketi</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-XXE-notes-intro-level" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/19/XXE-notes-intro-level/" class="article-date">
-  <time datetime="2020-09-19T15:46:13.573Z" itemprop="datePublished">2020-09-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      XXE-notes-intro-level
-    </h1>
-  
+  <div class="blog-header">
+   <a id="menu-nav-icon"><img src="/image/menu.png"/></a>
+   <div class="nav-container">
+     <nav id="main-nav">
+       
+         <a class="main-nav-link" href="/">Home</a>
+       
+         <a class="main-nav-link" href="/archives">Archives</a>
+       
+     </nav>
+   </div>
+   <!--
+   <div id="search-form-wrap">
+     <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+   </div>
+ -->
+    <h1 class="blog-title">caketi</h1>
+    <p class="lead blog-description">Ultraman Orb(红凯)</p>
+</div>
 
-      </header>
+  <div id='main-part'>
+      <div class="main">
+<div class="blog-post">
+    <!-- Title -->
+    <h1 class="blog-post-title">
+        <a href="/2020/09/19/XXE-notes-intro-level/">
+            XXE-Notes-Intro-Level
+        </a>
+    </h1>
+    <!-- Date and Author -->
+    <p class="blog-post-meta">
+        2020-09-19
+        
+    </p>
+
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <a id="more"></a>
+
+    <!-- Content -->
+    <a id="more"></a>
 
 
 
@@ -120,121 +99,89 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> utilAPI <span class="keyword">from</span> <span class="string">&#x27;./utilAPI&#x27;</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Generate a new XML HTTP request targeting the XML -&gt; JPG utility API.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">xhr.open(<span class="string">&#x27;POST&#x27;</span>, utilAPI.url + <span class="string">&#x27;/screenshot&#x27;</span>)</span><br><span class="line">xhr.setRequestHeader(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;application/xml&#x27;</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Provide a manually crafted XML string hat makes use of the external entity functionality in many XML parsers.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> rawXMLString = <span class="string">&#x27;&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot;&gt;]&gt;&lt;xxe&gt;&amp;xxe;&lt;/xxe&gt;&#x27;</span></span><br><span class="line"></span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.readyState === XMLHttpRequest.DONE &amp;&amp; <span class="built_in">this</span>.status === <span class="number">200</span>)&#123;</span><br><span class="line">        <span class="comment">// chekc response data here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// send the request to the XML -&gt; JPG utility API endpoint</span></span><br><span class="line">xhr.send(rawXMLString)</span><br></pre></td></tr></table></figure>
 
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/19/XXE-notes-intro-level/" data-id="ckfahcm75000aigthcmx6f8tv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Github host 配置</div>
-    </a>
-  
-</nav>
 
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
+    <!-- Social share choices -->
     
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
-    </div>
+  <div id="social-share">
+    <a data-url="http://example.com/2020/09/19/XXE-notes-intro-level/" target="_blank" rel="noopener" href="https://plus.google.com/share?url=" class="googleplus"><img src="/image/googleplusicon.png" alt=""/></a>
+    <a data-url="http://example.com/2020/09/19/XXE-notes-intro-level/" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url=" class="twitter"><img src="/image/twittericon.png" alt=""/></a>
+    <a data-url="http://example.com/2020/09/19/XXE-notes-intro-level/" target="_blank" rel="noopener" href="http://pinterest.com/pin/create/button/?url=" class="pinterest"><img src="/image/pinteresticon.png" alt=""/></a>
+    <a data-url="http://example.com/2020/09/19/XXE-notes-intro-level/" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=" class="facebook"><img src="/image/facebookicon.png" alt=""/></a>
   </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/09/19/XXE-notes-intro-level/">XXE-notes-intro-level</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/">Github host 配置</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/19/Caketi-on-the-way/">Caketi  on the way</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/19/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/18/defending%20Dos/">Defending DoS</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 caketi<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+
+
+<!--
+
+
+https://www.facebook.com/sharer/sharer.php?u=http://example.com/2020/09/19/XXE-notes-intro-level/
+http://example.com/2020/09/19/XXE-notes-intro-level/
+-->
+
+
+
+    <hr />
+
+
+    <!-- Tags and Categories links -->
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
 
 
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <!-- Comment using disqus -->
+    
 
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
+</div>
+</div>
 
 
   </div>
+  <!-- Footer -->
+  <div id="footer">
+  <div id="footer-social">
+    
+    
+    <a href="https://github.com/https://github.com/caketi" target="_blank"><img src="/image/githubicon.png" alt=""/></a>
+    
+    
+    
+    
+    
+</div>
+
+  <p id="footer-info">
+    &copy; 2020 caketi<br>
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> -
+    Theme <a href="https://github.com/Suolawangzai/hexo-theme-nebula" target="_blank">nebula</a>
+  </p>
+
+  <div id="busuanzi">
+    <span id="busuanzi_container_site_pv">
+      &hearts;
+    Total visits: <span id="busuanzi_value_site_pv"></span>
+    </span>
+  </div>
+  <!--
+  <div id="footer-info">
+    &copy; 2020 caketi<br>
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+  </div>
+-->
+</div>
+
+  <!-- After footer scripts -->
+  <!-- Disqus Comments -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/main.js"></script>
+
+
 </body>
+
 </html>
