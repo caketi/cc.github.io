@@ -415,4 +415,44 @@ make a request like GET /api/changeSubscriptionTier with any tier as the newTier
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2020/09/17/Reviewing%20Code%20for%20Security/</url>
+    <content><![CDATA[<hr>
+<p>title:Reviewing Code for Security<br>date:2020-09-15 10:49:18</p>
+<hr>
+<a id="more"></a>
+<p>#Reviewing Code for Security<br>#How to start a Code Review</p>
+<p>Here is a common local review flow that can be done from the terminal:</p>
+<ol>
+<li>Check out master with <strong><em>git checkout master.</em></strong></li>
+<li>Fetch and merge the latest master with <strong><em>git pull origin master.</em></strong></li>
+<li>Check out the feature branch with <strong><em>git checkout <username>/feature.</em></strong></li>
+<li>Run a diff against the master with <strong><em>git diff origin/master…</em></strong></li>
+</ol>
+<p><strong><em>The git diff command should return two things:</em></strong></p>
+<ul>
+<li>A list of files that differ on master and the current branch</li>
+<li>A list of changes in those files between master and the current branch</li>
+</ul>
+<p>#Archetypical Vulnerabilities Versus Custom Logic Bugs</p>
+<blockquote>
+<p><strong><em>A code security review checks for common vulnerabilities such as XSS, CSRF, injection, and so on, but more importantly checks for logic-level vulnerabilities that require deep context into the purpose of the code and cannot easily found by automated tools or scanners.</em></strong><br>This means we need to understand the users<br>of the feature, the functionality of the feature, and the business impact of the feature<br>#Where to Start a Security Review<br>Imagine a basic web application with two components: a client in the browser, and a<br>server that talks to that client.<br><strong><em>As a result, a good place to start in the actual source code is anywhere that a client (browser) makes a request to the server.</em></strong><br>Starting on the client is great because it will<br>begin to give you a good idea of the surface area you are dealing with. From there you<br>can learn what type of data is exchanged between the client and server, and if multiple<br>servers are being utilized rather than one. Furthermore, you can learn about the pay‐<br>loads being exchanged and how these payloads are being interpreted on the server.<br>After evaluating the client itself, you should follow the client’s API calls back to the<br>server. Begin evaluating calls that connect the client and the server in the web<br>application.<br>Once this is complete, you should probably consider tracing the helper methods,<br>dependencies, and functionality those APIs rely on. This means evaluating databases,<br>logs, uploaded files, conversion libraries, and anything else that the API endpoints<br>call directly or via a helper library.<br>Next, cover the bases by looking over every bit of functionality that could be exposed<br>to the client but isn’t directly called. This could be APIs built to support upcoming<br>functionality, or perhaps just functionality that was accidentally exposed and should<br>be internal.<br>Finally, after those major points in the codebase have been covered, dedicate your<br>time to the rest of the codebase. Determine the route taken via analysis of the busi‐<br>ness logic and prioritization based on the risks you envision such an application<br>encountering<br>To summarize, an effective way of determining what code to review in a security<br>review of a web application is as follows:</p>
+</blockquote>
+<ol>
+<li>Evaluate the client-side code to gain understanding of the business logic and<br>understand what functionality users will be capable of using.</li>
+<li>Using knowledge gained from the client review, begin evaluating the API layer, in<br>particular, the APIs you found via the client review. In doing this, you should be<br>able to get a good understanding of what dependencies the API layer relies on to<br>function.</li>
+<li>Trace the dependencies in the API layer, carefully reviewing databases, helper<br>libraries, logging functions, etc. In doing this, you will get close to having covered<br>the majority of user-facing functionality.</li>
+<li>Using the knowledge of the structure of the client-linked APIs, attempt to find<br>any public-facing APIs that may be unintentionally exposed or intended for<br>future feature releases. Review these as you find them.</li>
+<li>Continue on throughout the remainder of the codebase. This should actually be<br>pretty easy because you will already be familiar with the codebase having read<br>through it in an organic method versus trying to brute force an understanding of<br>the application architecture<br>#Secure-Coding Anti-Patterns</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> blacklist = [<span class="string">&#x27;http://www.evil.com&#x27;</span>, <span class="string">&#x27;http://www.badguys.net&#x27;</span>];</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Determine if the domain is allowed for integration.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> isDomainAccepted = <span class="function"><span class="keyword">function</span>(<span class="params">domain</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !blacklist.includes(domain);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> whitelist = [<span class="string">&#x27;https://happy-site.com&#x27;</span>, <span class="string">&#x27;https://www.my-friends.com&#x27;</span>];</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Determine if the domain is allowed for integration.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> isDomainAccepted = <span class="function"><span class="keyword">function</span>(<span class="params">domain</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">return</span> whitelist.includes(domain);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>#Boilerplate Code]=default framework<br> avoid launching any boilerplate code into pro‐<br>duction environments unless that boilerplate code has been properly evaluated and<br>configured.&gt;|<br>#Trust-By-Default Anti-Pattern</p>
+<p>#**Client/Server Separation</p>
+<blockquote>
+<p>the client and server application code are so tightly bound<br>that one cannot function without the other<br> PHP templating code with authentication logic, become much easier to<br>exploit due to lack of separation. Rather than reading the results of a network request,<br>a module sends back its HTML code, including any form data (for example, when<br>dealing with authentication). Then the server must be responsible for parsing that<br>HTML code and ensuring no script execution or parameter tampering occurs inside<br>both the HTML code and the authentication logic.<br><strong><em>In a totally separated client/server application, the server is not responsible for the<br>structure and content of the HTML data. Instead, the server rejects any HTML sent,<br>and only accepts authentication payloads using a predefined data transit format.</em></strong></p>
+</blockquote>
+]]></content>
+  </entry>
 </search>
