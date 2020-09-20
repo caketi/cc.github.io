@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Defending Against CSRF - caketi</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="红凯,
+
+In Part II we built Cross-Site Request Forgery (CSRF) attacks that took advantage of auser’s auth,"> 
+    <meta name="author" content="caketi"> 
+    <link rel="alternative" href="atom.xml" title="caketi" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+
+    
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+
+    
+<link rel="stylesheet" href="/css/obsidian.css">
+
+    
+<link rel="stylesheet" href="/css/ball-atom.min.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">caketi</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="http://example.com">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">Defending Against CSRF</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+                
+                September 18, 2020
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/2020/09/18/Defending%20Against%20CSRF%20Attacks/" title="Defending Against CSRF" class="">Defending Against CSRF</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>Words count</i>
+                    19k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                    18 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>Read count</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <a id="more"></a>
+<blockquote>
+<p>In Part II we built Cross-Site Request Forgery (CSRF) attacks that took advantage of a<br>user’s authenticated session in order to make requests on their behalf. We built CSRF<br>attacks with <a></a> links, via <img></img> tags, and even via HTTP POST using<br>web forms. We saw how effective and dangerous CSRF-style attacks are against an<br>application, because they function at both an elevated privilege level and often are<br>undetectable by the authenticated user.</p>
+</blockquote>
+<p>##Header Verification<br>checking the origin of the request<br>in the world of HTTP– two headers we are inerested in–<strong><em>referer and origin</em></strong><br>== they cannot be modified programmatically with js in all major browsers.</p>
+<p><strong><em>Origin header</em></strong><br>    The origin header is only sent on HTTP POST requests. indicates where a request originated from. also present on HTTP requests, in addition to HTTP requests. An origin header looks like:<br>    <strong><em>Origin: <a target="_blank" rel="noopener" href="https://www.mega-bank.com:80/">https://www.mega-bank.com:80</a></em></strong></p>
+<p>Referer header<br>  The referer header is set on all requests, and also indicates where a request originated from. when referering link has the attribute <strong><em>rel=noreferer</em></strong> set.A referer header looks like: Referer:<a target="_blank" rel="noopener" href="https://www.mega-bank.com:80/">https://www.mega-bank.com:80</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> transferFunds = <span class="built_in">require</span>(<span class="string">&#x27;../operations/transferFunds&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">&#x27;../util/session&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> validLocations = [</span><br><span class="line">    <span class="string">&#x27;https://www.mega-bank.com&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://api.mega-bank.com&#x27;</span></span><br><span class="line">]</span><br><span class="line"><span class="keyword">const</span> validateHeadersAgainstCSRF = <span class="function"><span class="keyword">function</span>(<span class="params">headers</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> origin = headers.origin</span><br><span class="line">    <span class="keyword">const</span> referer = headers.referer</span><br><span class="line">    <span class="keyword">if</span> (!origin || referer) &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</span><br><span class="line">    <span class="keyword">if</span> (!validLocations.includes(origin) || </span><br><span class="line">        !validLocations.includes(referer))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> ture</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cosnt transfer = <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!session.isAuthenticated)&#123; <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>)&#125;</span><br><span class="line">    <span class="keyword">if</span> (!validateHeadersAgainstCSRF(req, headers)&#123; <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>)&#125;)</span><br><span class="line">    <span class="keyword">return</span> transferFunds(session.currentUser, req.query.to_user, req.quer.amount)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = transfer</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>check both headers == referer origin<br>first line of defense<br>Should<br>an attacker get an XSS on a whitelisted origin of yours, they can initiate the attack<br>from your own origin, appearing to come from your own servers as a legitimate<br>request.</p>
+</blockquote>
+<p>#CSRF Tokens<br>anti-CSRF token<br>At its core, CSRF token defense works like this:</p>
+<ol>
+<li>Your web server sends a special token to the client. This token is generated cryp‐<br>tographically with a very low collision algorithm, which means that the odds of<br>getting two identical tokens are exceedingly rare. The token can be regenerated<br>as often as per request, but generally is generated per session.</li>
+<li>Each request from your web application now sends the token back with it; this<br>should be sent back in forms as well as AJAX requests. When the request gets to<br>the server, the token is verified to make sure it is live (not expired), authentic,<br>and has not been manipulated. If verification fails, the request is logged and fails<br>as well.<br>CSRF Tokens | 249</li>
+<li>As a result of requests requiring a valid CSRF token, which is unique per session<br>and unique to each user, CSRF attacks originating from other origins become<br>extremely difficult to pull off. Not only would the attacker need a live and up-todate CSRF token, but they would also now need to target a specific user versus a<br>large number of users. Furthermore, with token expiration compromised, CSRF<br>tokens can be dead by the time a user clicks a malicious link—a beneficial side<br>effect of CSRF tokens as a defensive strategy.</li>
+</ol>
+<p>#stateless CSRF Tokens</p>
+<p>Much like stateless authentication tokens, a stateless CSRF token should consist of the<br>following:<br>• A unique identifier of the user the token belongs to<br>• A timestamp (which can be used for expiration)<br>• A cryptographic nonce whose key only exists on the server<br>Combining these elements nets you a CSRF token that is not only practical but also<br>consumes fewer server resources than the stateful alternative, as managing sessions<br>does not scale well compared to a sessionless alternative.</p>
+<p>#Anti-CSRF Coding  Best Pratices<br>Several of the most effective methods are:</p>
+<ul>
+<li>Refactoring to stateless GET requests</li>
+<li>Implementation of application-wide CSRF defenses</li>
+<li>Introduction of request-checking middleware</li>
+</ul>
+<p>#Stateless GET Requests</p>
+<blockquote>
+<p>Because the most common and easily distributable CSRF attacks come via HTTP<br>GET requests, it is important to correctly structure our API calls to mitigate this risk.<br>HTTP GET requests should not store or modify any server-side state. Doing so leaves<br>future GET requests or modifications to GET requests open to potential CSRF<br>vulnerabilities.</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GET</span></span><br><span class="line"><span class="keyword">const</span> user = <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">getUserById(req.query.id).then(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">if</span> (req.query.updates) &#123; user.update(req.updates); &#125;</span><br><span class="line"> <span class="keyword">return</span> res.json(user);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// GET</span></span><br><span class="line"><span class="keyword">const</span> getUser = <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">getUserById(req.query.id).then(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">return</span> res.json(user);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// POST</span></span><br><span class="line"><span class="keyword">const</span> updateUser = <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line"> getUserById(req.query.id).then(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line"> user.update(req.updates).then(<span class="function">(<span class="params">updated</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">if</span> (!updated) &#123; <span class="keyword">return</span> res.sendStatus(<span class="number">400</span>); &#125;</span><br><span class="line"> <span class="keyword">return</span> res.sendStatus(<span class="number">200</span>);</span><br><span class="line"> &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The first API combines the two operations into a single request, with an optional<br>update. The second API splits retrieving and updating users into a GET and POST<br>request, respectively.<br>The first API can be taken advantage of by CSRF in any HTTP GET (e.g., a link or<br>image: https://<url>/user?user=123&amp;updates=email:hacker). The second API,<br>while still an HTTP POST and potentially vulnerable to more advanced CSRF, cannot<br>be taken advantage of by links, images, or other HTTP GET-style CSRF attacks.<br>This seems like a simple architecture flaw (modifying state in HTTP GET requests),<br>and in all honesty it is. But the key point here applies to any and all GET requests that<br>could potentially modify server-side application state—don’t do it. HTTP GET<br>requests are at risk by default; the nature of the web makes them much more vulnera‐<br>ble to CSRF attacks, and you should avoid them for stateful operations.<br>#Application-Wide CSRF Mitigation</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Let’s take a look at some middleware that accomplishes just <span class="built_in">this</span>:</span><br><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">&#x27;../util/crypto&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> dateTime = <span class="built_in">require</span>(<span class="string">&#x27;../util/dateTime&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">&#x27;../util/session&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> logger = <span class="built_in">require</span>(<span class="string">&#x27;../util/logger&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> validLocations = [</span><br><span class="line"><span class="string">&#x27;https://www.mega-bank.com&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;https://api.mega-bank.com&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;https://portal.mega-bank.com&#x27;</span></span><br><span class="line">];</span><br><span class="line"><span class="keyword">const</span> validateHeaders = <span class="function"><span class="keyword">function</span>(<span class="params">headers, method</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">const</span> origin = headers.origin;</span><br><span class="line"> <span class="keyword">const</span> referer = headers.referer;</span><br><span class="line"> <span class="keyword">let</span> isValid = <span class="literal">false</span>;</span><br><span class="line"> <span class="keyword">if</span> (method === <span class="string">&#x27;POST&#x27;</span>) &#123;</span><br><span class="line"> isValid = validLocations.includes(referer) &amp;&amp; validLocations.includes(origin);</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"> isValid = validLocations.includes(referer);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> isValid;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> validateCSRFToken = <span class="function"><span class="keyword">function</span>(<span class="params">token, user</span>) </span>&#123;</span><br><span class="line"> <span class="comment">// get data from CSRF token</span></span><br><span class="line"> <span class="keyword">const</span> text_token = crypto.decrypt(token);</span><br><span class="line"> <span class="keyword">const</span> user_id = text_token.split(<span class="string">&#x27;:&#x27;</span>)[<span class="number">0</span>];</span><br><span class="line"> <span class="keyword">const</span> date = text_token.split(<span class="string">&#x27;:&#x27;</span>)[<span class="number">1</span>];</span><br><span class="line"> <span class="keyword">const</span> nonce = text_token.split(<span class="string">&#x27;:&#x27;</span>)[<span class="number">2</span>];</span><br><span class="line"> <span class="comment">// check validity of data</span></span><br><span class="line"> <span class="keyword">let</span> validUser = <span class="literal">false</span>;</span><br><span class="line"> <span class="keyword">let</span> validDate = <span class="literal">false</span>;</span><br><span class="line"> <span class="keyword">let</span> validNonce = <span class="literal">false</span>;</span><br><span class="line"><span class="number">252</span> | Chapter <span class="number">23</span>: Defending Against CSRF Attacks</span><br><span class="line"> <span class="keyword">if</span> (user_id === user.id) &#123; validUser = <span class="literal">true</span>; &#125;</span><br><span class="line"> <span class="keyword">if</span> (dateTime.lessThan(<span class="number">1</span>, <span class="string">&#x27;week&#x27;</span>, date)) &#123; validDate = <span class="literal">true</span>; &#125;</span><br><span class="line"> <span class="keyword">if</span> (crypto.validateNonce(user_id, date, nonce)) &#123; validNonce = <span class="literal">true</span>; &#125;</span><br><span class="line"> <span class="keyword">return</span> validUser &amp;&amp; validDate &amp;&amp; validNonce;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> CSRFShield = <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (!validateHeaders(req.headers, req.method) ||</span><br><span class="line"> !validateCSRFToken(req.csrf, session.currentUser) &#123;</span><br><span class="line"> logger.log(req);</span><br><span class="line"> <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>);</span><br><span class="line"> &#125;</span><br><span class="line"><span class="keyword">return</span> next();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The middleware simply verifies that the origin<br>and/or referrer headers are correct, and then ensures that the CSRF token is valid. It<br>returns an error before any other logic is called if either fail; otherwise it moves on to<br>the next middleware and allows the application to continue execution unaltered.<br>Because this middleware relies on a client consistently passing a CSRF token to the<br>server on each request, it would be optimal to replicate such automation on the client<br>as well. This can be done with a number of techniques. For example, you could use<br>the proxy pattern to overwrite the XMLHttpRequest default behavior to always include<br>the token.<br>Alternatively, you could use a more simple approach that would rely on building a<br>library for generating requests that would simply wrap the XMLHttpRequest and<br>inject the correct token, depending on the HTTP verb.<br>#Summary<br> Further, CSRF mitigations should consider<br>validating headers and adding CSRF tokens to each of your requests.</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >Comments</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>caketi</p>
+                    <span>Think like an artist, develop like an artisan</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">12 <p>Articles</p></a></li>
+                    <li><a href="/categories">0 <p>Categories</p></a></li>
+                    <li><a href="/tags">0 <p>Tags</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            caketi
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.4" target="_blank" rel="noopener">v1.4.4</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+ 
+<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+ 
+<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+  
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+ 
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+ 
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+ 
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+ 
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+   
+<script src="/js/busuanzi.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    if ($('span[id^="busuanzi_"]').length) {
+      initialBusuanzi();
+    }
+  });
+</script>
+ 
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+
+
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149874671-1');
+</script>
+ 
+
+<script>
+  function initialTyped() {
+    var typedTextEl = $('.typed-text');
+    if (typedTextEl && typedTextEl.length > 0) {
+      var typed = new Typed('.typed-text', {
+        strings: ['Think like an artist, develop like an artisan', '艺术家思维去思考问题，工匠创造精神去开发'],
+        typeSpeed: 90,
+        loop: true,
+        loopCount: Infinity,
+        backSpeed: 20,
+      });
+    }
+  }
+
+  if ($('.article-header') && $('.article-header').length) {
+    $(document).ready(function () {
+      initialTyped();
+    });
+  }
+</script>
+
+
+
+
+</html>

