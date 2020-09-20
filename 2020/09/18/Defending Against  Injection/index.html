@@ -7,15 +7,15 @@
   
   <title>Defending Against Injection | caketi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="In most modern web applications, SQL operations would occur past the server-siderouting level. This means we aren’t too interested in anything on the client.Remember that if data is persisting betwee">
+  <meta name="description" content="In most modern web applications, SQL operations would occur past the server-siderouting level. This means we aren’t too interested in anything on the client.Remember that if data is persisting betwe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Defending Against Injection">
 <meta property="og:url" content="http://example.com/2020/09/18/Defending%20Against%20%20Injection/index.html">
 <meta property="og:site_name" content="caketi">
-<meta property="og:description" content="In most modern web applications, SQL operations would occur past the server-siderouting level. This means we aren’t too interested in anything on the client.Remember that if data is persisting betwee">
+<meta property="og:description" content="In most modern web applications, SQL operations would occur past the server-siderouting level. This means we aren’t too interested in anything on the client.Remember that if data is persisting betwe">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-09-18T11:06:52.239Z">
-<meta property="article:modified_time" content="2020-09-20T01:38:23.428Z">
+<meta property="article:modified_time" content="2020-09-20T01:45:28.340Z">
 <meta property="article:author" content="caketi">
 <meta property="article:tag" content="红凯，乡秀树，北斗星司，东光太郎">
 <meta name="twitter:card" content="summary">
@@ -89,7 +89,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
+        <a id="more"></a>
+<blockquote>
 <p>In most modern web applications, SQL operations would occur past the server-side<br>routing level. This means we aren’t too interested in anything on the client.<br><strong><em>Remember that if data is persisting between devices and sessions, it is<br>either stored in server-side memory, disk (logs), or in a database.</em></strong><br>Furthermore, some server software makes use of a domain-specific language (DSL),<br>which could potentially make SQL calls on our behalf, although these calls would not<br>be structured similarly to a raw SQL call.</p>
 </blockquote>
 <p>If the SQL library is imported on a permodule basis, finding queries becomes as easy as searching for the import:</p>
