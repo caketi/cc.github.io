@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>/2020/09/20/test/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>Caketi  on the way</title>
     <url>/2020/09/19/Caketi-on-the-way/</url>
     <content><![CDATA[<p>进来看看？</p>
@@ -204,6 +199,15 @@ difficulty is protecting your website against XSS usually comes when u have a fe
 ]]></content>
   </entry>
   <entry>
+    <title>Github host 配置</title>
+    <url>/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>修改本地的hosts文件，建立对github的解析：</p>
+<p>C:\Windows\System32\drivers\etc\hosts</p>
+<p>添加：</p>
+<p>　　IP　　<a href="https://www.github.com/">https://www.github.com</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Defending Against XXE</title>
     <url>/2020/09/18/Defending%20Against%20XXE/</url>
     <content><![CDATA[<a id="more"></a>
@@ -217,15 +221,6 @@ difficulty is protecting your website against XSS usually comes when u have a fe
 </blockquote>
 </li>
 </ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>Github host 配置</title>
-    <url>/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>修改本地的hosts文件，建立对github的解析：</p>
-<p>C:\Windows\System32\drivers\etc\hosts</p>
-<p>添加：</p>
-<p>　　IP　　<a href="https://www.github.com/">https://www.github.com</a></p>
 ]]></content>
   </entry>
   <entry>
