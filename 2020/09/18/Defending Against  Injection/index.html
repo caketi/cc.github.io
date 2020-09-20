@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Defending Against Injection | caketi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="In most modern web applications, SQL operations would occur past the server-siderouting level. This means we aren’t too interested in anything on the client.Remember that if data is persisting betwee">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Defending Against Injection">
+<meta property="og:url" content="http://example.com/2020/09/18/Defending%20Against%20%20Injection/index.html">
+<meta property="og:site_name" content="caketi">
+<meta property="og:description" content="In most modern web applications, SQL operations would occur past the server-siderouting level. This means we aren’t too interested in anything on the client.Remember that if data is persisting betwee">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-18T11:06:52.239Z">
+<meta property="article:modified_time" content="2020-09-20T01:38:23.428Z">
+<meta property="article:author" content="caketi">
+<meta property="article:tag" content="红凯，乡秀树，北斗星司，东光太郎">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="caketi" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">caketi</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Defending Against  Injection" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/18/Defending%20Against%20%20Injection/" class="article-date">
+  <time datetime="2020-09-18T11:06:52.239Z" itemprop="datePublished">2020-09-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Defending Against Injection
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>In most modern web applications, SQL operations would occur past the server-side<br>routing level. This means we aren’t too interested in anything on the client.<br><strong><em>Remember that if data is persisting between devices and sessions, it is<br>either stored in server-side memory, disk (logs), or in a database.</em></strong><br>Furthermore, some server software makes use of a domain-specific language (DSL),<br>which could potentially make SQL calls on our behalf, although these calls would not<br>be structured similarly to a raw SQL call.</p>
+</blockquote>
+<p>If the SQL library is imported on a permodule basis, finding queries becomes as easy as searching for the import:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sql = <span class="built_in">require</span>(<span class="string">&#x27;mssql&#x27;</span>)</span><br><span class="line"><span class="comment">// OR</span></span><br><span class="line"><span class="keyword">const</span> mysql = <span class="built_in">require</span>(<span class="string">&#x27;mysql&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong><em>On the other hand, if these libraries are declared globally, or inherited from a parent<br>class, the work for finding queries becomes a bit more difficult.</em></strong><br>Both of the two aforementioned SQL adapters for Node.js use a syntax that concludes<br>with a call to .query(x), but some adapters use a more literal syntax:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sql = <span class="built_in">require</span>(<span class="string">&#x27;sql&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> getUserByUsername = <span class="function"><span class="keyword">function</span>(<span class="params">username</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">const</span> q = <span class="keyword">new</span> sql();</span><br><span class="line"> q.select(<span class="string">&#x27;*&#x27;</span>);</span><br><span class="line"> q.from(<span class="string">&#x27;users&#x27;</span>);</span><br><span class="line"> q.where(<span class="string">`username = <span class="subst">$&#123;username&#125;</span>`</span>);</span><br><span class="line"> q.then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="string">`username is : <span class="subst">$&#123;res&#125;</span>`</span>;</span><br><span class="line"> &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Prepared statements work by compiling the query first, with placeholder values for<br>variables. These are known as bind variables, but are often just referred to as place‐<br>holder variables. After compiling the query, the placeholders are replaced with the<br>values provided by the developer. As a result of this two-step process, the intention of<br>the query is set before any user-submitted data is considered.<br>With a prepared statement, because the intention is set in stone prior to the usersubmitted data being presented to the SQL interpreter, the query itself cannot change.<br>This means that a SELECT operation against users cannot be escaped and modified<br>into a DELETE operation by any means. An additional query cannot occur after the<br>SELECT operation if the user escapes the original query and begins a new one. Pre‐<br>pared statements eliminate most SQL injection risk and are supported by almost<br>every major SQL database: MySQL, Oracle, PostgreSQL, Microsoft SQL Server, etc.<br>The only major trade-off between traditional SQL queries and prepared statements is<br>that of performance. Rather than one trip to the database, the database is provided<br>the prepared statement followed by the variables to inject after compilation and at<br>runtime of the query. In most applications, this performance loss will be minimal.</p>
+</blockquote>
+<p>In MySQL, prepared statements are quite simple:<br>PREPARE q FROM ‘SELECT name, barCode from products WHERE price &lt;= ?’;<br>SET @price = 12;<br>EXECUTE q USING @price;<br>DEALLOCATE PREPARE q;<br>In this prepared statement, we are querying the MySQL database for products (we<br>want name and barcode returned) that have a price less than ?.<br>First, we use the statement PREPARE to store our query under the name q. This query<br>will be compiled and ready for use. Next, we set a variable @price to 12. This would<br>be a good variable to have a user set if they were filtering against an ecommerce site,<br>for example. Then we EXCECUTE the query providing @price to fill the ? placeholder/<br>bind variable. Finally, we use DEALLOCATE on q to remove it from memory so its<br>namespace can be used for other things.<br>In this simple prepared statement, q is compiled prior to being executed with @price.<br>Even if @price was set equal to 5; UPDATE users WHERE id = 123 SET balance =<br>10000, the additional query would not fire as it would not be compiled by the data‐<br>base.<br>Oracle (Java) offers an encoder that can be invoked with the following syntax:<br>ESAPI.encoder().enodeForSQL(new OracleCodec(), str);<br>Similarly, MySQL offers equivalent functionality. In MySQL, the following can be<br>used to prevent the usage of improperly escaped strings:<br>SELECT QUOTE(‘test’’case’);<br>The QUOTE function in MySQL will escape backslashes, single quotes, or NULL, and<br>return a properly single-quoted string.<br>MySQL also offers mysql_real_escape_string(). This function escapes all of the<br>preceding backslashes and single quotes, but also escapes double quotes, \n, and \r<br>(linebreak).<br>Making use of database-specific string sanitizers for escaping risky character sets<br>reduces the SQL injection risk by making it harder to write an SQL literal versus a<br>string. These should always be used if a query is being run that cannot be paramater‐<br>ized—though they should not be considered a comprehensive defense but instead a<br>mitigation.</p>
+<p>It extends across any type of script that takes text input and<br>interprets the text in some type of interpreter or evaluates the text against some list of<br>commands.</p>
+<p>Typically, when on the lookout for injection, the following are high-risk targets:<br>• Task schedulers<br>• Compression/optimization libraries<br>• Remote backup scripts<br>• Databases<br>• Loggers<br>• Any call to the HOST OS<br>• Any interpreter or compiler<br>When first ranking components </p>
+<blockquote>
+</blockquote>
+<p>The principle of least authority (often called principle of least privilege, which I believe<br>to be a bit less succinct) is an important abstraction rule that should always be used<br>when attempting to build secure web applications. The principle states that in any<br>system, each member of the system should only have access to the information and<br>resources required to accomplish their job</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/18/Defending%20Against%20%20Injection/" data-id="ckfafngz400004cth9eqv33mb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/18/defending%20Dos/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Defending DoS
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/18/Defending%20Against%20XXE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Defending Against XXE</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/19/XXE-notes-intro-level/">XXE-notes-intro-level</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/">Github host 配置</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/Caketi-on-the-way/">Caketi  on the way</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/18/defending%20Dos/">Defending DoS</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 caketi<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>caketi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="红凯">
+<meta property="og:type" content="website">
+<meta property="og:title" content="caketi">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="caketi">
+<meta property="og:description" content="红凯">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="caketi">
+<meta property="article:tag" content="红凯，乡秀树，北斗星司，东光太郎">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="caketi" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">caketi</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Vulnerability Discvoery" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/17/Vulnerability%20Discvoery/" class="article-date">
+  <time datetime="2020-09-17T10:01:16.040Z" itemprop="datePublished">2020-09-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#Security Automation<br>most common security automation :</p>
+<ul>
+<li>Static analysis</li>
+<li>Dynamic analysis</li>
+<li>Vulnerability regression testing<br>Many robust and powerful static analysis tools exist, such as the following:</li>
+<li>Checkmarx (most major languages—paid)</li>
+<li>PMD (Java—free)</li>
+<li>Bandit (Python—free)</li>
+<li>Brakeman (Ruby—free)</li>
+</ul>
+<p>General XSS<br>    Look for DOM manipulation with innerHTML.<br>Reflected XSS<br>    Look for variables pulled from a URL param.</p>
+<p>DOM XSS<br>    Look for specific DOM sinks like setInterval().<br>SQL Injection<br>    Look for user-provided strings being used in queries.<br>CSRF<br>    Look for state-changing GET requests.<br>DoS<br>    Look for improperly written regular expressions.</p>
+<blockquote>
+<p>Additionally, static analysis suffers when dealing with dynamic languages (like Java‐<br>Script). Statically typed languages like Java or C# are much easier to perform static<br>analysis on, as the tooling understands the expected data type, and that data cannot<br>change type as it traverses through functions and classes.<br>#Dynamic Analysis</p>
+</blockquote>
+<p>Dynamic analysis tools exist for many languages and frameworks. Some examples of<br>these are:</p>
+<ul>
+<li>IBM AppScan (paid)</li>
+<li>Veracode (paid)</li>
+<li>Iroh (free)<br>#Vulnerability Regression Testing<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> currentUser = <span class="built_in">require</span>(<span class="string">&#x27;../currentUser&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> modifySubscription = <span class="built_in">require</span>(<span class="string">&#x27;../../modifySubscription&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> tiers = [<span class="string">&#x27;individual&#x27;</span>, <span class="string">&#x27;business&#x27;</span>, <span class="string">&#x27;corporation&#x27;</span>];</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Takes an HTTP GET on behalf of the currently authenticated user.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Takes a param `newTier` and attempts to update the authenticated</span></span><br><span class="line"><span class="comment"> * user&#x27;s subscription to that tier.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">app.get(<span class="string">&#x27;/changeSubscriptionTier&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (!currentUser.isAuthenticated) &#123; <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>); &#125;</span><br><span class="line"><span class="keyword">if</span> (!req.params.newTier) &#123; <span class="keyword">return</span> res.sendStatus(<span class="number">400</span>); &#125;</span><br><span class="line"><span class="keyword">if</span> (!tiers.includes(req.params.newTier)) &#123; <span class="keyword">return</span> res.sendStatus(<span class="number">400</span>); &#125;</span><br><span class="line">Security Automation | <span class="number">219</span></span><br><span class="line">modifySubscription(currentUser, req.params.newTier)</span><br><span class="line">.then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">return</span> res.sendStatus(<span class="number">200</span>);</span><br><span class="line">&#125;)</span><br><span class="line">.catch(<span class="function">() =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">return</span> res.sendStatus(<span class="number">400</span>);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+make a request like GET /api/changeSubscriptionTier with any tier as the newTier<br>param and sends it via hyperlink to Steve. When Steve clicks this link, a request is<br>made on behalf of his account, changing the state of his subscription in his company’s<h1 id="application-portal"><a href="#application-portal" class="headerlink" title="application portal."></a>application portal.</h1>Jed has discovered a CSRF vulnerability in the application. Luckily, although Steve is<br>annoyed by Jed’s constant critiquing, he realizes the danger of this exploit and reports<br>it back to his organization for triaging. Once triaged, the solution is to switch the<br>request from an HTTP GET to an HTTP POST instead.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tester = <span class="built_in">require</span>(<span class="string">&#x27;tester&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> requester = <span class="built_in">require</span>(<span class="string">&#x27;requester&#x27;</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Checks the HTTP Options of the `changeSubscriptionTier` endpoint.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Fails if more than one verb is accepted, or the verb is not equal</span></span><br><span class="line"><span class="comment"> * to &#x27;POST&#x27;.</span></span><br><span class="line"><span class="comment"> * Fails on timeout or unsuccessful options request.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> testTierChange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">requester.options(<span class="string">&#x27;http://app.com/api/changeSubscriptionTier&#x27;</span>)</span><br><span class="line"> .on(<span class="string">&#x27;response&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">if</span> (!res.headers) &#123;</span><br><span class="line"> <span class="keyword">return</span> tester.fail();</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"> <span class="keyword">const</span> verbs = res.headers[<span class="string">&#x27;Allow&#x27;</span>].split(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line"> <span class="keyword">if</span> (verbs.length &gt; <span class="number">1</span>) &#123; <span class="keyword">return</span> tester.fail(); &#125;</span><br><span class="line"> <span class="keyword">if</span> (verbs[<span class="number">0</span>] !== <span class="string">&#x27;POST&#x27;</span>) &#123; <span class="keyword">return</span> tester.fail(); &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;)</span><br><span class="line"> .on(<span class="string">&#x27;error&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line"> <span class="built_in">console</span>.error(err);</span><br><span class="line"> <span class="keyword">return</span> tester.fail();</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<p>In this case, the resolution to the<br>CSRF bug was that the endpoint should only accept HTTP POST requests. The regres‐<br>sion test ensures that the endpoint changeSubscriptionTier only takes a single<br>HTTP verb, and that verb is equal to POST. If a change in the future introduces a nonPOST version of that endpoint, or the fix is overwritten, then this test will fail, indi‐<br>cating that the vulnerability has regressed.<br>#Responsible Disclosure Programs</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/17/Vulnerability%20Discvoery/" data-id="ckfafngze00064cth8nxhc8h1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Reviewing Code for Security" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/17/Reviewing%20Code%20for%20Security/" class="article-date">
+  <time datetime="2020-09-17T04:58:23.784Z" itemprop="datePublished">2020-09-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#Reviewing Code for Security<br>#How to start a Code Review</p>
+<p>Here is a common local review flow that can be done from the terminal:</p>
+<ol>
+<li>Check out master with <strong><em>git checkout master.</em></strong></li>
+<li>Fetch and merge the latest master with <strong><em>git pull origin master.</em></strong></li>
+<li>Check out the feature branch with <strong><em>git checkout <username>/feature.</em></strong></li>
+<li>Run a diff against the master with <strong><em>git diff origin/master…</em></strong></li>
+</ol>
+<p><strong><em>The git diff command should return two things:</em></strong></p>
+<ul>
+<li>A list of files that differ on master and the current branch</li>
+<li>A list of changes in those files between master and the current branch</li>
+</ul>
+<p>#Archetypical Vulnerabilities Versus Custom Logic Bugs</p>
+<blockquote>
+<p><strong><em>A code security review checks for common vulnerabilities such as XSS, CSRF, injection, and so on, but more importantly checks for logic-level vulnerabilities that require deep context into the purpose of the code and cannot easily found by automated tools or scanners.</em></strong><br>This means we need to understand the users<br>of the feature, the functionality of the feature, and the business impact of the feature<br>#Where to Start a Security Review<br>Imagine a basic web application with two components: a client in the browser, and a<br>server that talks to that client.<br><strong><em>As a result, a good place to start in the actual source code is anywhere that a client (browser) makes a request to the server.</em></strong><br>Starting on the client is great because it will<br>begin to give you a good idea of the surface area you are dealing with. From there you<br>can learn what type of data is exchanged between the client and server, and if multiple<br>servers are being utilized rather than one. Furthermore, you can learn about the pay‐<br>loads being exchanged and how these payloads are being interpreted on the server.<br>After evaluating the client itself, you should follow the client’s API calls back to the<br>server. Begin evaluating calls that connect the client and the server in the web<br>application.<br>Once this is complete, you should probably consider tracing the helper methods,<br>dependencies, and functionality those APIs rely on. This means evaluating databases,<br>logs, uploaded files, conversion libraries, and anything else that the API endpoints<br>call directly or via a helper library.<br>Next, cover the bases by looking over every bit of functionality that could be exposed<br>to the client but isn’t directly called. This could be APIs built to support upcoming<br>functionality, or perhaps just functionality that was accidentally exposed and should<br>be internal.<br>Finally, after those major points in the codebase have been covered, dedicate your<br>time to the rest of the codebase. Determine the route taken via analysis of the busi‐<br>ness logic and prioritization based on the risks you envision such an application<br>encountering<br>To summarize, an effective way of determining what code to review in a security<br>review of a web application is as follows:</p>
+</blockquote>
+<ol>
+<li>Evaluate the client-side code to gain understanding of the business logic and<br>understand what functionality users will be capable of using.</li>
+<li>Using knowledge gained from the client review, begin evaluating the API layer, in<br>particular, the APIs you found via the client review. In doing this, you should be<br>able to get a good understanding of what dependencies the API layer relies on to<br>function.</li>
+<li>Trace the dependencies in the API layer, carefully reviewing databases, helper<br>libraries, logging functions, etc. In doing this, you will get close to having covered<br>the majority of user-facing functionality.</li>
+<li>Using the knowledge of the structure of the client-linked APIs, attempt to find<br>any public-facing APIs that may be unintentionally exposed or intended for<br>future feature releases. Review these as you find them.</li>
+<li>Continue on throughout the remainder of the codebase. This should actually be<br>pretty easy because you will already be familiar with the codebase having read<br>through it in an organic method versus trying to brute force an understanding of<br>the application architecture<br>#Secure-Coding Anti-Patterns</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> blacklist = [<span class="string">&#x27;http://www.evil.com&#x27;</span>, <span class="string">&#x27;http://www.badguys.net&#x27;</span>];</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Determine if the domain is allowed for integration.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> isDomainAccepted = <span class="function"><span class="keyword">function</span>(<span class="params">domain</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !blacklist.includes(domain);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> whitelist = [<span class="string">&#x27;https://happy-site.com&#x27;</span>, <span class="string">&#x27;https://www.my-friends.com&#x27;</span>];</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Determine if the domain is allowed for integration.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> isDomainAccepted = <span class="function"><span class="keyword">function</span>(<span class="params">domain</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">return</span> whitelist.includes(domain);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>#Boilerplate Code]=default framework<br> avoid launching any boilerplate code into pro‐<br>duction environments unless that boilerplate code has been properly evaluated and<br>configured.&gt;|<br>#Trust-By-Default Anti-Pattern</p>
+<p>#**Client/Server Separation</p>
+<blockquote>
+<p>the client and server application code are so tightly bound<br>that one cannot function without the other<br> PHP templating code with authentication logic, become much easier to<br>exploit due to lack of separation. Rather than reading the results of a network request,<br>a module sends back its HTML code, including any form data (for example, when<br>dealing with authentication). Then the server must be responsible for parsing that<br>HTML code and ensuring no script execution or parameter tampering occurs inside<br>both the HTML code and the authentication logic.<br><strong><em>In a totally separated client/server application, the server is not responsible for the<br>structure and content of the HTML data. Instead, the server rejects any HTML sent,<br>and only accepts authentication payloads using a predefined data transit format.</em></strong></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/17/Reviewing%20Code%20for%20Security/" data-id="ckfafngzd00044cthbmmu7eko" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Secure Application Architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/16/Secure%20Application%20Architecture/" class="article-date">
+  <time datetime="2020-09-16T12:47:49.504Z" itemprop="datePublished">2020-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#Secure Application Architecture<br>**<em>The first step in securing any web application is the architecture phase.**</em></p>
+<blockquote>
+<p>When building a product, a cross-functional team of software engineers and product<br>managers usually collaborate to find a technical model that will serve a very specific<br>business goal in an efficient manner<br>#Analyzing Feature Requirements<br>collecting all of the business requirements that the product or feature is expected to implemen</p>
+</blockquote>
+<ul>
+<li>Authentication and authorization: How do we handle sessions, logins, and cookies?</li>
+<li>Personal data: Is it handled differently than other data? Do laws affect how weshould handle this data?</li>
+<li>Search engine: How is the search engine implemented? Does it draw from the primary database as its single source of truth or use a separate cached database?<br>#Authentication and Authorization<ul>
+<li>How do we handle data in transit?</li>
+<li>How do we handle the storage of credentials?</li>
+<li>How do we handle various authorization levels of users?<br>#Secure Sockets Layer and Transport Layer Security<blockquote>
+<p>how to handle data in transit?<br>all data sent over the network is encrypted en route===reduces the risk of man-in-the-middle attack===steal credentials from users<br>Secure Sockets Layer(SSL) and Transport Layer Security(TLS)==msjot cryptographic protocols </p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong><em>TLS offers the most rigid security, while SSL has higher adoption<br>but multiple vulnerabilities that reduce its integrity as a cryptographic protocol.</em></strong><br>#Secure Credentials</p>
+<blockquote>
+<p><strong><em>Creating a secure password has less to do with the length and number of special aracters, but instead has everything to do with the terns that can be found in the password. In tography, this is known as entropy—the amount of ndomness and certainty. You want passwords with a lot of entropy</em></strong><br>😊&gt;As you can see, it is not so much the length of the password that will protect you, but<br>instead the lack of observable patterns and avoidance of common words and phrases<br>#Hashing Credentials<br>hashing algorithms are not reversible.<br>Today’s hashing algorithms<br>can represent multiple-megabyte strings of characters in just 128 to 264 bits of data<br>##Bcrypt<br>the “B”<br>comes from Blowfish Cipher, a symmetric-key block cipher developed in 1993 by<br>Bruce Schneier, designed as a general purpose and open source encryption algorithm.<br>“Crypt” is the name of the default hashing function that shipped with Unix OSs.<br>##PBKDF2<br>based on a concept known as <strong><em>key stretching</em></strong>—rapidly generate a hash on the first attempt, but each additional attempt will become slower and slower.<br>PBKDF2 takes a configuration option that represents the minimum number of itera‐<br>tions in order to generate a hash. This minimum should always be set to the highest<br>number of iterations your hardware can handle. You never know what type of hard‐<br>ware a hacker might have access to, so by setting the minimum iterations for a hash<br>to your hardware’s maximum value, you are eliminating potential iterations on faster<br>hardware and eliminating any attempts on slower hardware.<br>##2FA<br>shows Google Authenticator, one of the<br>most common 2FA applications for Android and iOS. It is compatible with many<br>websites and has an open API for integrating into your application. 2FA is a fantastic<br>security feature that operates very effectively based on a very simple principle</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/16/Secure%20Application%20Architecture/" data-id="ckfafngze00054ctheh2r2zvb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/19/XXE-notes-intro-level/">XXE-notes-intro-level</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/">Github host 配置</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/Caketi-on-the-way/">Caketi  on the way</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/18/defending%20Dos/">Defending DoS</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 caketi<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

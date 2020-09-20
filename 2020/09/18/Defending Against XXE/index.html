@@ -5,17 +5,17 @@
   
 
   
-  <title>Defending DoS | caketi</title>
+  <title>Defending Against XXE | caketi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="As such, a first measure against DoS-style attacks should be building up a compre‐hensive enough logging system in your server that all requests are logged alongsidetheir time to respond.#Proteting">
+  <meta name="description" content="Generally speaking, XXE is indeed easy to defend against—simply disable externalentities in your XML parser (see Figure 24-1). How this is done depends on the XMLparser in question, but is typically j">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Defending DoS">
-<meta property="og:url" content="http://example.com/2020/09/18/defending%20Dos/index.html">
+<meta property="og:title" content="Defending Against XXE">
+<meta property="og:url" content="http://example.com/2020/09/18/Defending%20Against%20XXE/index.html">
 <meta property="og:site_name" content="caketi">
-<meta property="og:description" content="As such, a first measure against DoS-style attacks should be building up a compre‐hensive enough logging system in your server that all requests are logged alongsidetheir time to respond.#Proteting">
+<meta property="og:description" content="Generally speaking, XXE is indeed easy to defend against—simply disable externalentities in your XML parser (see Figure 24-1). How this is done depends on the XMLparser in question, but is typically j">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-18T11:35:17.341Z">
-<meta property="article:modified_time" content="2020-09-20T01:34:41.172Z">
+<meta property="article:published_time" content="2020-09-18T08:37:59.309Z">
+<meta property="article:modified_time" content="2020-09-20T01:38:06.867Z">
 <meta property="article:author" content="caketi">
 <meta property="article:tag" content="红凯，乡秀树，北斗星司，东光太郎">
 <meta name="twitter:card" content="summary">
@@ -67,10 +67,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-defending Dos" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Defending Against XXE" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/09/18/defending%20Dos/" class="article-date">
-  <time datetime="2020-09-18T11:35:17.341Z" itemprop="datePublished">2020-09-18</time>
+    <a href="/2020/09/18/Defending%20Against%20XXE/" class="article-date">
+  <time datetime="2020-09-18T08:37:59.309Z" itemprop="datePublished">2020-09-18</time>
 </a>
     
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Defending DoS
+      Defending Against XXE
     </h1>
   
 
@@ -89,18 +89,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-
-<blockquote>
-<p>As such, a first measure against DoS-style attacks should be building up a compre‐<br>hensive enough logging system in your server that all requests are logged alongside<br>their time to respond.<br>#Proteting Against Regex DoS<br>With a proper code review process, you can prevent regex DoS sinks (evil or mali‐<br>cious regex) from ever entering your codebase.</p>
+        <p>Generally speaking, XXE is indeed easy to defend against—simply disable external<br>entities in your XML parser (see Figure 24-1). How this is done depends on the XML<br>parser in question, but is typically just a single line of configuration:<br>factory.setFeature(“<a target="_blank" rel="noopener" href="http://apache.org/xml/features/disallow-doctype-decl&quot;">http://apache.org/xml/features/disallow-doctype-decl&quot;</a>, true);</p>
+<p>#XML versus JSON<br>Category| XML| JSON<br>—-| —-| —-<br>Payload size | Large |Compact<br>Specication complexity| High| Low<br>Ease of use| Requires complex parsing |Simple parsing for JavaScript compatibility<br>Metadata support| Yes| No<br>Rendering (via HTML-like structuring) |Easy |Difficult<br>Mixed content |Supported| Unsupported<br>Schema validation |Supported |Unsupported<br>Object mapping |None |JavaScript<br>Readability| Low |High<br>Comment support| Yes| No<br>Security| Lower| Higher</p>
+<ul>
+<li>JSON is a much more lightweight format than XML.</li>
+<li>JSON offers less rigidity, but brings with it faster and easier to work withpayloads.</li>
+<li>JSON maps to JavaScript objects, while XML more closely maps to DOM trees<br>(as the DOM is an XML-derived format).<blockquote>
+<p>Because XML has schema validation, it may also be useful for applications where<br>deeply rigid data structure is required. JSON, on the other hand, is less rigid, making<br>it perfect for APIs with ongoing development such that the contract between the cli‐<br>ent and server does not need constant maintenance.<br>The security risks from XML mostly come from the power of its specification and the<br>fact that it can incorporate external files and multimedia. As such, it is naturally less<br>secure than JSON, a format that simply stores key/value pairs in a string-based<br>format.<br>If your organization does not like the idea of moving to JSON, YAML, BSON, or<br>EDN are all suitable alternatives but should require a similar analysis prior to<br>commitment.<br>#Advanced XXE Risks<br>It should be noted that XXE attacks often start as read-only attacks, but may progress<br>into more advanced forms of attack. XXE is a “gateway” attack of sorts as it provides<br>the attacker with a recon platform that permits them to access data otherwise unac‐<br>cessible to the world outside of the web server.<br>Using this data, other parts of the application may be more easily compromised. The<br>result is that the final impact of an XXE attack can be anywhere from read-only data<br>access to remote code execution and full server takeovers. This is why XXE attacks<br>are so incredibly dangerous</p>
 </blockquote>
-<p>DoS attacks come via two major archetypes: single attacker (DoS) and multiple<br>attackers (DDoS).<br>Most, but not all, DDoS attacks are performed by overwhelming server resources<br>rather than via bug exploitation. Because of this, countermeasures for DDoS may also<br>cause difficulty for legitimate users</p>
-<p>Single-attacker DoS attacks, on the other hand, can be mitigated by smart application<br>architecture that prevents users from being able to take over application resources for<br>a long period of time.<br>Regular-expression-based DoS attacks can be mitigated by implementing a static<br>analysis tool (like a linter) to scan regular expressions in your codebase and warn if<br>any appear to be “evil” syntactically.<br>Because of their general ease of exploitation, DoS-style attacks are rampant through‐<br>out the web. Even if you don’t expect your application to be a target of DoS attacks,<br>you should implement anti-DoS mitigations once you can afford it just in case you<br>become a target in the future.</p>
+</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/18/defending%20Dos/" data-id="ckf9vb63z0003gkthhovfh5g9" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/09/18/Defending%20Against%20XXE/" data-id="ckfafngzc00034cthh225h4gk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -109,19 +112,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/09/19/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/09/18/Defending%20Against%20%20Injection/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Hello World
+          Defending Against Injection
         
       </div>
     </a>
   
   
-    <a href="/2020/09/18/Defending%20Against%20%20Injection/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/09/18/Defending%20Against%20CSRF%20Attacks/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Defending Against Injection</div>
+      <div class="article-nav-title">Defending Against CSRF</div>
     </a>
   
 </nav>

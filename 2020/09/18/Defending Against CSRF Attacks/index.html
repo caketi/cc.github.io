@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Defending Against CSRF | caketi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="In Part II we built Cross-Site Request Forgery (CSRF) attacks that took advantage of auser’s authenticated session in order to make requests on their behalf. We built CSRFattacks with  links, via  ta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Defending Against CSRF">
+<meta property="og:url" content="http://example.com/2020/09/18/Defending%20Against%20CSRF%20Attacks/index.html">
+<meta property="og:site_name" content="caketi">
+<meta property="og:description" content="In Part II we built Cross-Site Request Forgery (CSRF) attacks that took advantage of auser’s authenticated session in order to make requests on their behalf. We built CSRFattacks with  links, via  ta">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-18T01:38:28.065Z">
+<meta property="article:modified_time" content="2020-09-20T01:39:16.691Z">
+<meta property="article:author" content="caketi">
+<meta property="article:tag" content="红凯，乡秀树，北斗星司，东光太郎">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="caketi" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">caketi</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Defending Against CSRF Attacks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/18/Defending%20Against%20CSRF%20Attacks/" class="article-date">
+  <time datetime="2020-09-18T01:38:28.065Z" itemprop="datePublished">2020-09-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Defending Against CSRF
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>In Part II we built Cross-Site Request Forgery (CSRF) attacks that took advantage of a<br>user’s authenticated session in order to make requests on their behalf. We built CSRF<br>attacks with <a></a> links, via <img></img> tags, and even via HTTP POST using<br>web forms. We saw how effective and dangerous CSRF-style attacks are against an<br>application, because they function at both an elevated privilege level and often are<br>undetectable by the authenticated user.</p>
+</blockquote>
+<p>##Header Verification<br>checking the origin of the request<br>in the world of HTTP– two headers we are inerested in–<strong><em>referer and origin</em></strong><br>== they cannot be modified programmatically with js in all major browsers.</p>
+<p><strong><em>Origin header</em></strong><br>    The origin header is only sent on HTTP POST requests. indicates where a request originated from. also present on HTTP requests, in addition to HTTP requests. An origin header looks like:<br>    <strong><em>Origin: <a target="_blank" rel="noopener" href="https://www.mega-bank.com:80/">https://www.mega-bank.com:80</a></em></strong></p>
+<p>Referer header<br>  The referer header is set on all requests, and also indicates where a request originated from. when referering link has the attribute <strong><em>rel=noreferer</em></strong> set.A referer header looks like: Referer:<a target="_blank" rel="noopener" href="https://www.mega-bank.com:80/">https://www.mega-bank.com:80</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> transferFunds = <span class="built_in">require</span>(<span class="string">&#x27;../operations/transferFunds&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">&#x27;../util/session&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> validLocations = [</span><br><span class="line">    <span class="string">&#x27;https://www.mega-bank.com&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://api.mega-bank.com&#x27;</span></span><br><span class="line">]</span><br><span class="line"><span class="keyword">const</span> validateHeadersAgainstCSRF = <span class="function"><span class="keyword">function</span>(<span class="params">headers</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> origin = headers.origin</span><br><span class="line">    <span class="keyword">const</span> referer = headers.referer</span><br><span class="line">    <span class="keyword">if</span> (!origin || referer) &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</span><br><span class="line">    <span class="keyword">if</span> (!validLocations.includes(origin) || </span><br><span class="line">        !validLocations.includes(referer))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> ture</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cosnt transfer = <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!session.isAuthenticated)&#123; <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>)&#125;</span><br><span class="line">    <span class="keyword">if</span> (!validateHeadersAgainstCSRF(req, headers)&#123; <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>)&#125;)</span><br><span class="line">    <span class="keyword">return</span> transferFunds(session.currentUser, req.query.to_user, req.quer.amount)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = transfer</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>check both headers == referer origin<br>first line of defense<br>Should<br>an attacker get an XSS on a whitelisted origin of yours, they can initiate the attack<br>from your own origin, appearing to come from your own servers as a legitimate<br>request.</p>
+</blockquote>
+<p>#CSRF Tokens<br>anti-CSRF token<br>At its core, CSRF token defense works like this:</p>
+<ol>
+<li>Your web server sends a special token to the client. This token is generated cryp‐<br>tographically with a very low collision algorithm, which means that the odds of<br>getting two identical tokens are exceedingly rare. The token can be regenerated<br>as often as per request, but generally is generated per session.</li>
+<li>Each request from your web application now sends the token back with it; this<br>should be sent back in forms as well as AJAX requests. When the request gets to<br>the server, the token is verified to make sure it is live (not expired), authentic,<br>and has not been manipulated. If verification fails, the request is logged and fails<br>as well.<br>CSRF Tokens | 249</li>
+<li>As a result of requests requiring a valid CSRF token, which is unique per session<br>and unique to each user, CSRF attacks originating from other origins become<br>extremely difficult to pull off. Not only would the attacker need a live and up-todate CSRF token, but they would also now need to target a specific user versus a<br>large number of users. Furthermore, with token expiration compromised, CSRF<br>tokens can be dead by the time a user clicks a malicious link—a beneficial side<br>effect of CSRF tokens as a defensive strategy.</li>
+</ol>
+<p>#stateless CSRF Tokens</p>
+<p>Much like stateless authentication tokens, a stateless CSRF token should consist of the<br>following:<br>• A unique identifier of the user the token belongs to<br>• A timestamp (which can be used for expiration)<br>• A cryptographic nonce whose key only exists on the server<br>Combining these elements nets you a CSRF token that is not only practical but also<br>consumes fewer server resources than the stateful alternative, as managing sessions<br>does not scale well compared to a sessionless alternative.</p>
+<p>#Anti-CSRF Coding  Best Pratices<br>Several of the most effective methods are:</p>
+<ul>
+<li>Refactoring to stateless GET requests</li>
+<li>Implementation of application-wide CSRF defenses</li>
+<li>Introduction of request-checking middleware</li>
+</ul>
+<p>#Stateless GET Requests</p>
+<blockquote>
+<p>Because the most common and easily distributable CSRF attacks come via HTTP<br>GET requests, it is important to correctly structure our API calls to mitigate this risk.<br>HTTP GET requests should not store or modify any server-side state. Doing so leaves<br>future GET requests or modifications to GET requests open to potential CSRF<br>vulnerabilities.</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GET</span></span><br><span class="line"><span class="keyword">const</span> user = <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">getUserById(req.query.id).then(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">if</span> (req.query.updates) &#123; user.update(req.updates); &#125;</span><br><span class="line"> <span class="keyword">return</span> res.json(user);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// GET</span></span><br><span class="line"><span class="keyword">const</span> getUser = <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">getUserById(req.query.id).then(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">return</span> res.json(user);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// POST</span></span><br><span class="line"><span class="keyword">const</span> updateUser = <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line"> getUserById(req.query.id).then(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line"> user.update(req.updates).then(<span class="function">(<span class="params">updated</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">if</span> (!updated) &#123; <span class="keyword">return</span> res.sendStatus(<span class="number">400</span>); &#125;</span><br><span class="line"> <span class="keyword">return</span> res.sendStatus(<span class="number">200</span>);</span><br><span class="line"> &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The first API combines the two operations into a single request, with an optional<br>update. The second API splits retrieving and updating users into a GET and POST<br>request, respectively.<br>The first API can be taken advantage of by CSRF in any HTTP GET (e.g., a link or<br>image: https://<url>/user?user=123&amp;updates=email:hacker). The second API,<br>while still an HTTP POST and potentially vulnerable to more advanced CSRF, cannot<br>be taken advantage of by links, images, or other HTTP GET-style CSRF attacks.<br>This seems like a simple architecture flaw (modifying state in HTTP GET requests),<br>and in all honesty it is. But the key point here applies to any and all GET requests that<br>could potentially modify server-side application state—don’t do it. HTTP GET<br>requests are at risk by default; the nature of the web makes them much more vulnera‐<br>ble to CSRF attacks, and you should avoid them for stateful operations.<br>#Application-Wide CSRF Mitigation</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Let’s take a look at some middleware that accomplishes just <span class="built_in">this</span>:</span><br><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">&#x27;../util/crypto&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> dateTime = <span class="built_in">require</span>(<span class="string">&#x27;../util/dateTime&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">&#x27;../util/session&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> logger = <span class="built_in">require</span>(<span class="string">&#x27;../util/logger&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> validLocations = [</span><br><span class="line"><span class="string">&#x27;https://www.mega-bank.com&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;https://api.mega-bank.com&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;https://portal.mega-bank.com&#x27;</span></span><br><span class="line">];</span><br><span class="line"><span class="keyword">const</span> validateHeaders = <span class="function"><span class="keyword">function</span>(<span class="params">headers, method</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">const</span> origin = headers.origin;</span><br><span class="line"> <span class="keyword">const</span> referer = headers.referer;</span><br><span class="line"> <span class="keyword">let</span> isValid = <span class="literal">false</span>;</span><br><span class="line"> <span class="keyword">if</span> (method === <span class="string">&#x27;POST&#x27;</span>) &#123;</span><br><span class="line"> isValid = validLocations.includes(referer) &amp;&amp; validLocations.includes(origin);</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"> isValid = validLocations.includes(referer);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> isValid;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> validateCSRFToken = <span class="function"><span class="keyword">function</span>(<span class="params">token, user</span>) </span>&#123;</span><br><span class="line"> <span class="comment">// get data from CSRF token</span></span><br><span class="line"> <span class="keyword">const</span> text_token = crypto.decrypt(token);</span><br><span class="line"> <span class="keyword">const</span> user_id = text_token.split(<span class="string">&#x27;:&#x27;</span>)[<span class="number">0</span>];</span><br><span class="line"> <span class="keyword">const</span> date = text_token.split(<span class="string">&#x27;:&#x27;</span>)[<span class="number">1</span>];</span><br><span class="line"> <span class="keyword">const</span> nonce = text_token.split(<span class="string">&#x27;:&#x27;</span>)[<span class="number">2</span>];</span><br><span class="line"> <span class="comment">// check validity of data</span></span><br><span class="line"> <span class="keyword">let</span> validUser = <span class="literal">false</span>;</span><br><span class="line"> <span class="keyword">let</span> validDate = <span class="literal">false</span>;</span><br><span class="line"> <span class="keyword">let</span> validNonce = <span class="literal">false</span>;</span><br><span class="line"><span class="number">252</span> | Chapter <span class="number">23</span>: Defending Against CSRF Attacks</span><br><span class="line"> <span class="keyword">if</span> (user_id === user.id) &#123; validUser = <span class="literal">true</span>; &#125;</span><br><span class="line"> <span class="keyword">if</span> (dateTime.lessThan(<span class="number">1</span>, <span class="string">&#x27;week&#x27;</span>, date)) &#123; validDate = <span class="literal">true</span>; &#125;</span><br><span class="line"> <span class="keyword">if</span> (crypto.validateNonce(user_id, date, nonce)) &#123; validNonce = <span class="literal">true</span>; &#125;</span><br><span class="line"> <span class="keyword">return</span> validUser &amp;&amp; validDate &amp;&amp; validNonce;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> CSRFShield = <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (!validateHeaders(req.headers, req.method) ||</span><br><span class="line"> !validateCSRFToken(req.csrf, session.currentUser) &#123;</span><br><span class="line"> logger.log(req);</span><br><span class="line"> <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>);</span><br><span class="line"> &#125;</span><br><span class="line"><span class="keyword">return</span> next();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The middleware simply verifies that the origin<br>and/or referrer headers are correct, and then ensures that the CSRF token is valid. It<br>returns an error before any other logic is called if either fail; otherwise it moves on to<br>the next middleware and allows the application to continue execution unaltered.<br>Because this middleware relies on a client consistently passing a CSRF token to the<br>server on each request, it would be optimal to replicate such automation on the client<br>as well. This can be done with a number of techniques. For example, you could use<br>the proxy pattern to overwrite the XMLHttpRequest default behavior to always include<br>the token.<br>Alternatively, you could use a more simple approach that would rely on building a<br>library for generating requests that would simply wrap the XMLHttpRequest and<br>inject the correct token, depending on the HTTP verb.<br>#Summary<br> Further, CSRF mitigations should consider<br>validating headers and adding CSRF tokens to each of your requests.</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/18/Defending%20Against%20CSRF%20Attacks/" data-id="ckfafngza00014cthfoeu250v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/18/Defending%20Against%20XXE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Defending Against XXE
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/17/Defending%20Against%20XSS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Defending Against XXS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/19/XXE-notes-intro-level/">XXE-notes-intro-level</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/">Github host 配置</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/Caketi-on-the-way/">Caketi  on the way</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/18/defending%20Dos/">Defending DoS</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 caketi<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
