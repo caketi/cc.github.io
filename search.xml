@@ -53,10 +53,9 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
+    <title>Defending DoS</title>
     <url>/2020/09/18/defending%20Dos/</url>
-    <content><![CDATA[<hr>
-<h2 id="title-Defending-DoS"><a href="#title-Defending-DoS" class="headerlink" title="title: Defending DoS"></a>title: Defending DoS</h2><a id="more"></a>
+    <content><![CDATA[<a id="more"></a>
 
 <blockquote>
 <p>As such, a first measure against DoS-style attacks should be building up a compre‐<br>hensive enough logging system in your server that all requests are logged alongside<br>their time to respond.<br>#Proteting Against Regex DoS<br>With a proper code review process, you can prevent regex DoS sinks (evil or mali‐<br>cious regex) from ever entering your codebase.</p>

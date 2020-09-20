@@ -102,17 +102,22 @@
   </entry>
   
   <entry>
-    <title></title>
+    <title>Defending DoS</title>
     <link href="http://example.com/2020/09/18/defending%20Dos/"/>
     <id>http://example.com/2020/09/18/defending%20Dos/</id>
     <published>2020-09-18T11:35:17.341Z</published>
-    <updated>2020-09-19T16:03:38.474Z</updated>
+    <updated>2020-09-20T01:34:41.172Z</updated>
     
-    <content type="html"><![CDATA[<hr><h2 id="title-Defending-DoS"><a href="#title-Defending-DoS" class="headerlink" title="title: Defending DoS"></a>title: Defending DoS</h2><a id="more"></a><blockquote><p>As such, a first measure against DoS-style attacks should be building up a compre‐<br>hensive enough logging system in your server that all requests are logged alongside<br>their time to respond.<br>#Proteting Against Regex DoS<br>With a proper code review process, you can prevent regex DoS sinks (evil or mali‐<br>cious regex) from ever entering your codebase.</p></blockquote><p>DoS attacks come via two major archetypes: single attacker (DoS) and multiple<br>attackers (DDoS).<br>Most, but not all, DDoS attacks are performed by overwhelming server resources<br>rather than via bug exploitation. Because of this, countermeasures for DDoS may also<br>cause difficulty for legitimate users</p><p>Single-attacker DoS attacks, on the other hand, can be mitigated by smart application<br>architecture that prevents users from being able to take over application resources for<br>a long period of time.<br>Regular-expression-based DoS attacks can be mitigated by implementing a static<br>analysis tool (like a linter) to scan regular expressions in your codebase and warn if<br>any appear to be “evil” syntactically.<br>Because of their general ease of exploitation, DoS-style attacks are rampant through‐<br>out the web. Even if you don’t expect your application to be a target of DoS attacks,<br>you should implement anti-DoS mitigations once you can afford it just in case you<br>become a target in the future.</p>]]></content>
+    <content type="html"><![CDATA[<a id="more"></a><blockquote><p>As such, a first measure against DoS-style attacks should be building up a compre‐<br>hensive enough logging system in your server that all requests are logged alongside<br>their time to respond.<br>#Proteting Against Regex DoS<br>With a proper code review process, you can prevent regex DoS sinks (evil or mali‐<br>cious regex) from ever entering your codebase.</p></blockquote><p>DoS attacks come via two major archetypes: single attacker (DoS) and multiple<br>attackers (DDoS).<br>Most, but not all, DDoS attacks are performed by overwhelming server resources<br>rather than via bug exploitation. Because of this, countermeasures for DDoS may also<br>cause difficulty for legitimate users</p><p>Single-attacker DoS attacks, on the other hand, can be mitigated by smart application<br>architecture that prevents users from being able to take over application resources for<br>a long period of time.<br>Regular-expression-based DoS attacks can be mitigated by implementing a static<br>analysis tool (like a linter) to scan regular expressions in your codebase and warn if<br>any appear to be “evil” syntactically.<br>Because of their general ease of exploitation, DoS-style attacks are rampant through‐<br>out the web. Even if you don’t expect your application to be a target of DoS attacks,<br>you should implement anti-DoS mitigations once you can afford it just in case you<br>become a target in the future.</p>]]></content>
     
     
-    <summary type="html">&lt;hr&gt;
-&lt;h2 id=&quot;title-Defending-DoS&quot;&gt;&lt;a href=&quot;#title-Defending-DoS&quot; class=&quot;headerlink&quot; title=&quot;title: Defending DoS&quot;&gt;&lt;/a&gt;title: Defending DoS&lt;/h2&gt;</summary>
+      
+      
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;As such, a first measure against DoS-style attacks should be building up a compre‐&lt;br&gt;hensive enough logg</summary>
+      
     
     
     
