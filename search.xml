@@ -452,4 +452,57 @@ make a request like GET /api/changeSubscriptionTier with any tier as the newTier
 </blockquote>
 ]]></content>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2020/09/16/Securing%20Modern%20Web%20Applications/</url>
+    <content><![CDATA[<hr>
+<p>title:Securing Modern Web Application<br>date</p>
+<hr>
+<a id="more"></a>
+
+
+<p><strong><em>Defending a web application is somewhat akin to defending a medieval castle. A<br>castle consists of a number of buildings and walls, which represent the core applica‐<br>tion code. Outside of the castle are a number of buildings that integrate with and sup‐<br>port the castle’s owner (usually a lord) in a way that describes an application’s<br>dependencies and integrations. Due to the large surface area in a castle and the sur‐<br>rounding kingdom, in wartime it is essential for defenses to be prioritized as it would<br>be infeasible to maximize the defensive fortifications at every potential entrance<br>point.</em></strong><br>#Defensive Software Architecture</p>
+<blockquote>
+<p>These techniques range from analysis of<br>data flow to threat modeling for new features.<br>#Comprehensive Code Reviews</p>
+</blockquote>
+<ul>
+<li>How is data being transmitted from point A to point B (typically over a network,and in a specific format)?</li>
+<li>How is data being stored?</li>
+<li>When data gets to the client, how is it presented to the user?</li>
+<li>When data gets to the server, what operations occur on it and how is it persisted?<blockquote>
+<p>basis=c</p>
+</blockquote>
+</li>
+</ul>
+<p>Today’s most securityconscious companies use a combination of the following:</p>
+<ul>
+<li>Bug bounty programs</li>
+<li>Internal red/blue teams</li>
+<li>Third-party penetration testers</li>
+<li>Corporate incentives for engineers to log known vulnerabilities<br>#Vulnerability Analysis<blockquote>
+<p>properly triage,prioritize,and manage that vulnerability.<br>First off, not all vulnerabilities carry as much risk as others. It is a well-known fact in<br>security engineering that some vulnerabilities are worth pushing off until developers<br>have free time, while others are worth dropping all current development processes in<br>order to patch.</p>
+</blockquote>
+</li>
+</ul>
+<p>***The risk level of a vulnerability determines the priority<br>required when determining when and in what order to fix vulnerabilities.<br>Risk and priority can be derived from:</p>
+<ul>
+<li>Financial risk to the company</li>
+<li>Difficulty of exploitation</li>
+<li>Type of data compromised</li>
+<li>Existing contractual agreements</li>
+<li>Mitigation measures already in place***<br>#Vulnerability Management<blockquote>
+<p>After assessing the risk of a vulnerability, and prioritizing it based on the factors lis‐<br>ted, a fix must be tracked through to completion</p>
+</blockquote>
+</li>
+</ul>
+<p>timelines —-<br>#Regression Testing</p>
+<blockquote>
+<p>After deploying a fix that resolves a vulnerability, the next step is to write a regression<br>test that will assert that the fix is valid and the vulnerability no longer exists. We will be discussing how to<br>effectively build, deploy, and maintain a regression testing framework in the follow‐<br>ing chapters.</p>
+</blockquote>
+<p>#Mitigation Strategies<br>**<em>Mitigation comes in the form of secure coding best practices, secure application<br>architecture, regression testing frameworks, secure software development life cycle<br>(SSDL), and secure-by-default developer mindset and development frameworks.**</em><br>#Applied Recon and Offense Techniques</p>
+<blockquote>
+</blockquote>
+<p>However, deep knowledge of recon and offensive techniques will give<br>you insight into building stronger defenses that could not be obtained otherwise.<br><strong><em>These techniques will give you insight into how<br>to camouflage your application from unwanted eyes. They will also give you insight<br>as to how to prioritize fixes, because you will note that some vulnerabilities will be<br>easier to find than others.</em></strong></p>
+]]></content>
+  </entry>
 </search>

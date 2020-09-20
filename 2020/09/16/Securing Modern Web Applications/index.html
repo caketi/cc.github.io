@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>caketi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title:Securing Modern Web Applicationdate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="caketi">
+<meta property="og:url" content="http://example.com/2020/09/16/Securing%20Modern%20Web%20Applications/index.html">
+<meta property="og:site_name" content="caketi">
+<meta property="og:description" content="title:Securing Modern Web Applicationdate">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-16T12:22:03.528Z">
+<meta property="article:modified_time" content="2020-09-20T01:49:43.187Z">
+<meta property="article:author" content="caketi">
+<meta property="article:tag" content="红凯，乡秀树，北斗星司，东光太郎">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="caketi" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">caketi</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Securing Modern Web Applications" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/16/Securing%20Modern%20Web%20Applications/" class="article-date">
+  <time datetime="2020-09-16T12:22:03.528Z" itemprop="datePublished">2020-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>title:Securing Modern Web Application<br>date</p>
+<hr>
+<a id="more"></a>
+
+
+<p><strong><em>Defending a web application is somewhat akin to defending a medieval castle. A<br>castle consists of a number of buildings and walls, which represent the core applica‐<br>tion code. Outside of the castle are a number of buildings that integrate with and sup‐<br>port the castle’s owner (usually a lord) in a way that describes an application’s<br>dependencies and integrations. Due to the large surface area in a castle and the sur‐<br>rounding kingdom, in wartime it is essential for defenses to be prioritized as it would<br>be infeasible to maximize the defensive fortifications at every potential entrance<br>point.</em></strong><br>#Defensive Software Architecture</p>
+<blockquote>
+<p>These techniques range from analysis of<br>data flow to threat modeling for new features.<br>#Comprehensive Code Reviews</p>
+</blockquote>
+<ul>
+<li>How is data being transmitted from point A to point B (typically over a network,and in a specific format)?</li>
+<li>How is data being stored?</li>
+<li>When data gets to the client, how is it presented to the user?</li>
+<li>When data gets to the server, what operations occur on it and how is it persisted?<blockquote>
+<p>basis=c</p>
+</blockquote>
+</li>
+</ul>
+<p>Today’s most securityconscious companies use a combination of the following:</p>
+<ul>
+<li>Bug bounty programs</li>
+<li>Internal red/blue teams</li>
+<li>Third-party penetration testers</li>
+<li>Corporate incentives for engineers to log known vulnerabilities<br>#Vulnerability Analysis<blockquote>
+<p>properly triage,prioritize,and manage that vulnerability.<br>First off, not all vulnerabilities carry as much risk as others. It is a well-known fact in<br>security engineering that some vulnerabilities are worth pushing off until developers<br>have free time, while others are worth dropping all current development processes in<br>order to patch.</p>
+</blockquote>
+</li>
+</ul>
+<p>***The risk level of a vulnerability determines the priority<br>required when determining when and in what order to fix vulnerabilities.<br>Risk and priority can be derived from:</p>
+<ul>
+<li>Financial risk to the company</li>
+<li>Difficulty of exploitation</li>
+<li>Type of data compromised</li>
+<li>Existing contractual agreements</li>
+<li>Mitigation measures already in place***<br>#Vulnerability Management<blockquote>
+<p>After assessing the risk of a vulnerability, and prioritizing it based on the factors lis‐<br>ted, a fix must be tracked through to completion</p>
+</blockquote>
+</li>
+</ul>
+<p>timelines —-<br>#Regression Testing</p>
+<blockquote>
+<p>After deploying a fix that resolves a vulnerability, the next step is to write a regression<br>test that will assert that the fix is valid and the vulnerability no longer exists. We will be discussing how to<br>effectively build, deploy, and maintain a regression testing framework in the follow‐<br>ing chapters.</p>
+</blockquote>
+<p>#Mitigation Strategies<br>**<em>Mitigation comes in the form of secure coding best practices, secure application<br>architecture, regression testing frameworks, secure software development life cycle<br>(SSDL), and secure-by-default developer mindset and development frameworks.**</em><br>#Applied Recon and Offense Techniques</p>
+<blockquote>
+</blockquote>
+<p>However, deep knowledge of recon and offensive techniques will give<br>you insight into building stronger defenses that could not be obtained otherwise.<br><strong><em>These techniques will give you insight into how<br>to camouflage your application from unwanted eyes. They will also give you insight<br>as to how to prioritize fixes, because you will note that some vulnerabilities will be<br>easier to find than others.</em></strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/16/Securing%20Modern%20Web%20Applications/" data-id="ckfag13y20000sgth20249k3p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/16/Secure%20Application%20Architecture/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/19/XXE-notes-intro-level/">XXE-notes-intro-level</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/">Github host 配置</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/Caketi-on-the-way/">Caketi  on the way</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/18/defending%20Dos/">Defending DoS</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 caketi<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
