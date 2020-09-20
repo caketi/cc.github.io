@@ -199,15 +199,6 @@ difficulty is protecting your website against XSS usually comes when u have a fe
 ]]></content>
   </entry>
   <entry>
-    <title>Github host 配置</title>
-    <url>/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>修改本地的hosts文件，建立对github的解析：</p>
-<p>C:\Windows\System32\drivers\etc\hosts</p>
-<p>添加：</p>
-<p>　　IP　　<a href="https://www.github.com/">https://www.github.com</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Defending Against XXE</title>
     <url>/2020/09/18/Defending%20Against%20XXE/</url>
     <content><![CDATA[<a id="more"></a>
@@ -286,6 +277,15 @@ difficulty is protecting your website against XSS usually comes when u have a fe
 <blockquote>
 <p><strong><em>Creating a secure password has less to do with the length and number of special aracters, but instead has everything to do with the terns that can be found in the password. In tography, this is known as entropy—the amount of ndomness and certainty. You want passwords with a lot of entropy</em></strong><br>😊&gt;As you can see, it is not so much the length of the password that will protect you, but<br>instead the lack of observable patterns and avoidance of common words and phrases<br>#Hashing Credentials<br>hashing algorithms are not reversible.<br>Today’s hashing algorithms<br>can represent multiple-megabyte strings of characters in just 128 to 264 bits of data<br>##Bcrypt<br>the “B”<br>comes from Blowfish Cipher, a symmetric-key block cipher developed in 1993 by<br>Bruce Schneier, designed as a general purpose and open source encryption algorithm.<br>“Crypt” is the name of the default hashing function that shipped with Unix OSs.<br>##PBKDF2<br>based on a concept known as <strong><em>key stretching</em></strong>—rapidly generate a hash on the first attempt, but each additional attempt will become slower and slower.<br>PBKDF2 takes a configuration option that represents the minimum number of itera‐<br>tions in order to generate a hash. This minimum should always be set to the highest<br>number of iterations your hardware can handle. You never know what type of hard‐<br>ware a hacker might have access to, so by setting the minimum iterations for a hash<br>to your hardware’s maximum value, you are eliminating potential iterations on faster<br>hardware and eliminating any attempts on slower hardware.<br>##2FA<br>shows Google Authenticator, one of the<br>most common 2FA applications for Android and iOS. It is compatible with many<br>websites and has an open API for integrating into your application. 2FA is a fantastic<br>security feature that operates very effectively based on a very simple principle</p>
 </blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>Github host 配置</title>
+    <url>/2020/09/19/GitHub%20host%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>修改本地的hosts文件，建立对github的解析：</p>
+<p>C:\Windows\System32\drivers\etc\hosts</p>
+<p>添加：</p>
+<p>　　IP　　<a href="https://www.github.com/">https://www.github.com</a></p>
 ]]></content>
   </entry>
   <entry>
